@@ -1,4 +1,5 @@
 import sqlite3 from 'sqlite3'
+import bcrypt from 'bcrypt'
 
 const db = new sqlite3.Database('./db/database.sqlite')
 
@@ -23,11 +24,12 @@ db.run(`
     )
 `)
 
-db.get("SELECT COUNT(*) as count FROM users", (err, row) => {
+db.get("SELECT COUNT(*) as count FROM users", async(err, row) => {
   if (row && row.count === 0) {
+    const hashedPassword = await bcrypt.hash("admin123", 10)
     db.run(
       "INSERT INTO users (email, password, role) VALUES (?, ?, ?)",
-      ["admin@watchworld.com", "admin123", "superadmin"],
+      ["admin@watchworld.com", hashedPassword, "superadmin"],
       () => console.log("Super admin created!")
     );
   }
