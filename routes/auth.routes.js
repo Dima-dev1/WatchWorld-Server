@@ -9,7 +9,7 @@ router.get('/registration', async (req, res) => {
     if (req.session && req.session.user) {
         return res.redirect("/")
     } 
-    res.render("auth/registration")
+    res.render("auth/registration",{error:null})
 })
 
 router.post('/registration', async (req, res) => {
@@ -41,7 +41,7 @@ router.get('/login', async (req, res) => {
     if (req.session && req.session.user) {
         return res.redirect("/")
     } 
-    res.render("auth/login")
+    res.render("auth/login",{error:null})
 })
 
 router.post('/login', async (req, res) => {

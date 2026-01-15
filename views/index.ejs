@@ -5,5 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body></body>
+  <body>
+    <h1>WatchWorld</h1>
+    <% if (user) { %>
+    <h2>User Info:</h2>
+    <ul>
+      <li><strong>ID:</strong> <%= user.id %></li>
+      <li><strong>Email:</strong> <%= user.email %></li>
+      <li><strong>Role:</strong> <%= user.role %></li>
+    </ul>
+    <a href="/logout">Logout</a>
+    <% } else { %>
+    <p>You are not logged in</p>
+    <a href="/login">Login</a> | <a href="/registration">Register</a>
+    <% } %>
+  </body>
 </html>
