@@ -6,6 +6,7 @@ import productRoutes from './routes/product.routes.js'
 import authRoutes from './routes/auth.routes.js'
 import { setLocals } from './middleware/auth.middleware.js' 
 import commonRoutes from './routes/common.routes.js'
+import adminRoutes from './routes/admin.routes.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -22,6 +23,7 @@ app.use(setLocals)
 app.use(productRoutes)
 app.use(authRoutes)
 app.use(commonRoutes)
+app.use(adminRoutes)
 
 app.listen(3000, () => {
   console.log('Server is running on port 3000')

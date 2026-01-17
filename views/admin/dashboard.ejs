@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products</title>
+  </head>
+  <body>
+    <div>
+        <a href="/">Home</a>
+        <a href="/admin/products/create">add product</a>
+    </div>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>title</th>
+          <th>description</th>
+          <th>price</th>
+          <th>image</th>
+          <th>actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (products && products.length) { %>
+          <% products.forEach(product => { %>
+            <tr>
+              <td><%= product.id %></td>
+              <td><%= product.title %></td>
+              <td><%= product.description %></td>
+              <td><%= product.price %></td>
+              <td>
+                <% if (product.image) { %>
+                  <img src="<%= product.image %>" alt="<%= product.title %>" width="50" />
+                <% } else { %>
+                  No image
+                <% } %>
+              </td>
+              <td>
+                <a href="/admin/products/<%= product.id %>/edit" class="btn btn-edit">
+                  Edit
+                </a>
+                <form
+                  action="/admin/products/<%= product.id %>/delete"
+                  method="POST"
+                  style="display:inline;"
+                >
+                  <button
+                    type="submit"
+                    class="btn btn-delete"
+                    onclick="return confirm('Are you sure?')"
+                  >
+                    Delete
+                  </button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td colspan="6">No products found</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </body>
+</html>

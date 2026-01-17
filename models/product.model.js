@@ -37,3 +37,31 @@ export const getById = (id) => {
     )
   })
 }
+
+export const update = (id,data) => {
+  const { title, description, price, image, characteristics } = data
+
+  return new Promise((resolve, reject) => {
+    db.run(
+      'UPDATE products SET title=?,description=?, price=?, image=?, characteristics=? WHERE id=?',
+      [title, description, price, image, characteristics, id],
+      function (err) {
+        if (err) return reject(err)
+        resolve(this.lastID)
+      }
+    )
+  })
+}
+
+export const remove = (id) => {
+  return new Promise((resolve, reject) => {
+    db.get(
+      'DELETE FROM products WHERE id = ?',
+      [id],
+      (err, row) => {
+        if (err) return reject(err)
+        resolve(row)
+      }
+    )
+  })
+}
