@@ -11,7 +11,7 @@ db.run(`
         description TEXT,
         price REAL,
         image TEXT,
-        charactertistics TEXT
+        characteristics TEXT
     )
 `)
 
@@ -24,15 +24,21 @@ db.run(`
     )
 `)
 
-db.get("SELECT COUNT(*) as count FROM users", async(err, row) => {
+db.get("SELECT COUNT(*) as count FROM users", (err, row) => {
+  if (err) return console.error(err);
+
   if (row && row.count === 0) {
-    const hashedPassword = await bcrypt.hash("admin123", 10)
+    const hashedPassword = bcrypt.hashSync("admin123", 10);
     db.run(
       "INSERT INTO users (email, password, role) VALUES (?, ?, ?)",
       ["admin@watchworld.com", hashedPassword, "superadmin"],
-      () => console.log("Super admin created!")
+      (err) => {
+        if (err) return console.error(err);
+        console.log("Super admin created!");
+      }
     );
   }
 });
+
 
 export default db

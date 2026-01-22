@@ -6,7 +6,7 @@ export const create = (data) => {
 
   return new Promise((resolve, reject) => {
     db.run(
-      'INSERT INTO products (title, description, price, image, characteristics) VALUES (?, ?, ?, ?, ?)',
+      'INSERT INTO products (title, description, price, image, characteristics ) VALUES (?, ?, ?, ?, ?)',
       [title, description, price, image, characteristics],
       function (err) {
         if (err) return reject(err)
