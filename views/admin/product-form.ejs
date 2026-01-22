@@ -23,15 +23,16 @@
 
     <% } %>
     <form action="<%= product ? `/admin/products/${product.id}/edit`: '/admin/products/create' %>" method="POST" enctype="multipart/form-data">
-        <input type="text" placeholder="title" name="title" required value="<%= product ? product.title : ''%>">
-        <textarea name="description" placeholder="description"><%= product ? product.description : '' %></textarea>
-        <input type="number" name="price" placeholder="price" required value="<%= product ? product.price : '' %>">
-        <textarea name="characteristics" placeholder="Oyster, 36 mm, platinum and diamonds"><%= product ? product.characteristics : '' %></textarea>
+        <input type="text" placeholder="Title" name="title" required value="<%= product ? product.title : ''%>">
+        <textarea name="description" placeholder="Description"><%= product ? product.description : '' %></textarea>
+        <input type="number" name="price" placeholder="Price" required value="<%= product ? product.price : '' %>">
+        <textarea name="characteristics" placeholder="Brand: BOSS,Water Resistant: 200m,Movement: Automatic,Dial Colour: Green,Case Material: Stainless Steel, Bracelet/Strap Material: Leather, Diameter: 39.5mm"><%= product ? product.characteristics : '' %></textarea>
+        <!-- Added "name="image" -->
         <input type="file" name="image" accept="image/*">
         <% if (product && product.image){%> 
             <img src="<%=product.image %>" alt="">
             <%}%>
-        <button type="submit">submit</button>
+        <button type="submit">Submit</button>
     </form>
   </body>
 </html>
