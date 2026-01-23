@@ -10,8 +10,23 @@ router.get('/products/:id', async (req, res) => {
 })
 
 router.get('/products', async (req, res) => {
-  const products = await Product.getAll()
-  res.render('products/list', { products })
+  const {search,minPrice,maxPrice,page} = req.query
+  const result = await Product.getFiltered({
+    search: search || "",
+    minPrice: minPrice ? parseFloat(minPrice) : null,
+    maxPrice: maxPrice ? parseFloat(maxPrice) : null,
+    page: page ? parseInt(page) : 1,
+    limit: 8
+  })
+  res.render('products/list', {
+    products: result.products,
+    total: result.total,
+    page: result.page,
+    search: result.search,
+    minPrice: result.minPrice,
+    maxPrice: result.maxPrice,
+    totalPages: result.totalPages
+  })
 })
 
 export default router

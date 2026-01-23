@@ -65,3 +65,51 @@ export const remove = (id) => {
     )
   })
 }
+
+export const getFiltered = ({search,minPrice,maxPrice,page,limit}) => {
+  return new Promise((resolve, reject) => {
+    let query = "SELECT * FROM products WHERE 1=1"
+    let countQuery = "SELECT COUNT(*) as total FROM products WHERE 1=1"
+    const params = []
+    const countParams = []
+    if (search) {
+      query += " AND title LIKE ?"
+      countQuery += " AND title LIKE ?"
+      params.push(`%${search}%`)
+      countParams.push(`%${search}%`)
+    }
+    if (minPrice) {
+      query += " AND price >= ?"
+      countQuery += " AND price >= ?"
+      params.push(minPrice)
+      countParams.push(minPrice)
+    }
+    if (maxPrice) {
+      query += " AND price <= ?"
+      countQuery += " AND price <= ?"
+      params.push(maxPrice)
+      countParams.push(maxPrice)
+    }
+    const offset = (page - 1) * limit
+    query += " ORDER BY id DESC LIMIT ? OFFSET ?"
+    params.push(limit, offset)
+    db.get(countQuery, countParams, (err,countResult) => {
+      if (err) {
+        return reject(err)
+      }
+      db.all(query, params, (err,rows) => {
+        if (err) {
+          return reject(err)
+        }
+        resolve({
+          products: rows,
+          total: countResult.total,
+          page: page,
+          limit: limit,
+          totalPages: Math.ceil(countResult.total / limit)
+        })
+      })
+    })
+  })
+}
+

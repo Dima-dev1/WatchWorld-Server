@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <% if (products && products.length) {%>
+        <div class="products-grid">
+            <% products.forEach(product=>{%>
+                <div class="product-card"><a href="/products/<%=product.id %>">
+                    <img src="<%=product.image%>" alt="" width="50px">
+                    <h2><%=product.title%></h2>
+                    <p><%=product.description%></p>
+                    <span><%=product.price%>£</span>
+                </a></div>
+                <%})%>
+        </div>
+        <%}%>
+        <% if (totalPages > 1) {%>
+            <div class="paganation">
+                <%
+              const buildUrl = (p) => {
+                const params = new URLSearchParams();
+                if (search) params.set('search', search);
+                if (minPrice) params.set('minPrice', minPrice);
+                if (maxPrice) params.set('maxPrice', maxPrice);
+                params.set('page', p);
+                return '/products?' + params.toString();
+              };
+            %>
+            <%if (page > 1) {%>
+                <a href="<%=buildUrl(page-1)%>"><</a>
+                <%} else{%>
+                     <span class="disabled"><</span>
+                    <%}%>
+
+                    <% for (let i = 1; i<=totalPages; i++){%>
+                        <% if (i==page) {%>
+                            <span class="active"><%=i%></span>
+                            <%} else {%>
+                                <a href="<%=buildUrl(i) %>"><%=i%></a>
+                                <%}%>
+                        <%}%>
+
+
+                    <%if (page < totalPages) {%>
+                <a href="<%=buildUrl(page+1)%>">></a>
+                <%} else{%>
+                     <span class="disabled">></span>
+                    <%}%>
+            </div>
+            <%}%>
+</body>
+</html>
