@@ -3,14 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Catalog</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            background-color: #EBF8ED;
+        }
+        .products-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+            justify-content: center;
+            padding: 48px 0;
+        }
+        .product-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            padding: 24px 16px;
+            width: 260px;
+            text-align: center;
+            transition: box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .product-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+        }
+        .product-card img {
+            margin-bottom: 12px;
+        }
+        .product-card h2 {
+            font-size: 19px;
+            margin: 0 0 8px 0;
+            color: #222;
+        }
+        .product-card span {
+            font-weight: bold;
+            color: #1976d2;
+            font-size: 18px;
+        }
+        .product-card a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .paganation {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 32px 0 0 0;
+        }
+        .paganation a, .paganation span {
+            padding: 6px 12px;
+            background: #fff;
+            color: #1976d2;
+            border: 1px solid #ddd;
+            min-width: 32px;
+            text-align: center;
+        }
+        .paganation .active {
+            background: #1976d2;
+            color: #fff;
+            border: 1px solid #1976d2;
+        }
+        .paganation .disabled {
+            color: #aaa;
+            background: #f0f0f0;
+            border: 1px solid #eee;
+            cursor: not-allowed;
+        }
+    </style>
 </head>
 <body>
     <% if (products && products.length) {%>
         <div class="products-grid">
             <% products.forEach(product=>{%>
                 <div class="product-card"><a href="/products/<%=product.id %>">
-                    <img src="<%=product.image%>" alt="" width="50px">
+                    <img src="<%=product.image%>" alt="" width="150px">
                     <h2><%=product.title%></h2>
                     <p><%=product.description%></p>
                     <span><%=product.price%>£</span>

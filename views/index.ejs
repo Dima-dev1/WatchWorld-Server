@@ -3,8 +3,51 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Home</title>
   </head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 0;
+      background-color: #EBF8ED;
+      text-align: center;
+      
+    }
+    h1 {
+      color: #333;
+      margin-top: 40px;
+      text-decoration: underline;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 auto 24px auto;
+      display: inline-block;
+      text-align: left;
+    }
+    .logout-btn {
+      display: block;
+      margin: 24px auto 0 auto;
+      padding: 10px 32px;
+      background: #111;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+      width: auto;
+      max-width: 220px;
+      min-width: 100px;
+    }
+    .logout-btn:hover {
+      background: #333;
+    }
+    
+  </style>
   <body>
     <h1>WatchWorld</h1>
     <% if (user) { %>
@@ -14,7 +57,7 @@
       <li><strong>Email:</strong> <%= user.email %></li>
       <li><strong>Role:</strong> <%= user.role %></li>
     </ul>
-    <a href="/logout">Logout</a>
+  <a href="/logout" class="logout-btn">Logout</a>
     <% } else { %>
     <p>You are not logged in</p>
     <a href="/login">Login</a> | <a href="/registration">Register</a>
