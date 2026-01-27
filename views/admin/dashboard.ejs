@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Products</title>
     <style>
+      body{
+        background-color: #EBF8ED;
+      }
       table{
         width: 100%;
         border-collapse: collapse;
@@ -32,12 +35,12 @@
     <table border="1">
       <thead>
         <tr>
-          <th>id</th>
-          <th>title</th>
-          <th>description</th>
-          <th>price</th>
-          <th>image</th>
-          <th>actions</th>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Image</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -50,7 +53,7 @@
               <td><%= product.price %></td>
               <td>
                 <% if (product.image) { %>
-                  <img src="<%= product.image %>" alt="<%= product.title %>" width="50" />
+                  <img src="<%= product.image %>" alt="<%= product.title %>" width="60" />
                 <% } else { %>
                   No image
                 <% } %>

@@ -5,17 +5,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
   </head>
+
   <style>
-    
+    body {
+      background-color: #ebf8ed;
+      min-height: 100vh;
+      padding: 0;
+      margin: 0;
+      height: 908px;
+    }
+
+    .signin-card {
+      background-color: white;
+      max-width: 850px;
+      padding: 20px;
+      margin: 134px auto;
+      height: 100%;
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .signin-card__title {
+      max-width: 372px;
+      margin: 0 auto;
+    }
+
+    .button {
+      cursor: pointer;
+      min-width: 165px;
+      height: 48px;
+      background-color: black;
+      font-size: 16px;
+      line-height: 160%;
+      color: white;
+      border-radius: 6px;
+      max-width: 334px;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .form__field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .form__field label {
+      font-size: 16px;
+      color: black;
+      line-height: 160%;
+    }
+
+    .form__field input {
+      border-radius: 6px;
+      background-color: rgb(215, 212, 212);
+      border: 1px solid rgb(160, 158, 158);
+      min-height: 42px;
+      padding: 0 10px;
+    }
+
+    .error {
+      color: red;
+      margin-bottom: 16px;
+    }
   </style>
+
   <body>
-    <% if (error) { %>
-    <div><%= error %></div>
-    <% } %>
-    <form action="/login" method="POST">
-      <input type="email" name="email" />
-      <input type="password" name="password" />
-      <button type="submit">submit</button>
-    </form>
+    <div class="signin-card">
+      <div class="signin-card__title">
+        <h1>Welcome back!</h1>
+        <p>Enter your Credentials to access your account</p>
+      </div>
+
+      <% if (error) { %>
+      <div class="error"><%= error %></div>
+      <% } %>
+
+      <form action="/login" method="POST" class="form">
+        <!--
+        <input type="email" name="email" />
+        <input type="password" name="password" />
+        <button type="submit">submit</button>
+        -->
+
+        <div class="form__field">
+          <label>Email</label>
+          <input type="email" name="email" required />
+        </div>
+
+        <div class="form__field">
+          <label>Password</label>
+          <input type="password" name="password" required />
+        </div>
+
+        <button class="button" type="submit">Sign In</button>
+      </form>
+
+      <p style="margin-top: 24px">
+        <a href="/registration">Sign up</a> you dont have an account
+      </p>
+    </div>
   </body>
 </html>
