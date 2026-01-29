@@ -27,7 +27,6 @@
         <textarea name="description" placeholder="Description"><%= product ? product.description : '' %></textarea>
         <input type="number" name="price" placeholder="Price" required value="<%= product ? product.price : '' %>">
         <textarea name="characteristics" placeholder="Brand: BOSS,Water Resistant: 200m,Movement: Automatic,Dial Colour: Green,Case Material: Stainless Steel, Bracelet/Strap Material: Leather, Diameter: 39.5mm"><%= product ? product.characteristics : '' %></textarea>
-        <!-- Added "name="image" -->
         <input type="file" name="image" accept="image/*">
         <% if (product && product.image){%> 
             <img src="<%=product.image %>" alt="">

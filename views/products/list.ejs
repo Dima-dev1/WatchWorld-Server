@@ -76,17 +76,81 @@
             border: 1px solid #eee;
             cursor: not-allowed;
         }
+        .product-card p{
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .heart-btn{
+            fill: red;
+        }
+        .product-actions{
+            padding-top: 12px;
+        }
+        .catalog{
+    
+        }
     </style>
 </head>
 <body>
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="icon-cart" viewBox="0 0 32 32">
+    <path d="M12 29c0 1.657-1.343 3-3 3s-3-1.343-3-3c0-1.657 1.343-3 3-3s3 1.343 3 3z"></path>
+    <path d="M32 29c0 1.657-1.343 3-3 3s-3-1.343-3-3c0-1.657 1.343-3 3-3s3 1.343 3 3z"></path>
+    <path d="M32 16v-12h-24c0-1.105-0.895-2-2-2h-6v2h4l1.502 12.877c-0.915 0.733-1.502 1.859-1.502 3.123 0 2.209 1.791 4 4 4h24v-2h-24c-1.105 0-2-0.895-2-2 0-0.007 0-0.014 0-0.020l26-3.98z"></path>
+  </symbol>
+  <symbol id="icon-heart" viewBox="0 0 32 32">
+    <path d="M23.6 2c-3.363 0-6.258 2.736-7.599 5.594-1.342-2.858-4.237-5.594-7.601-5.594-4.637 0-8.4 3.764-8.4 8.401 0 9.433 9.516 11.906 16.001 21.232 6.13-9.268 15.999-12.1 15.999-21.232 0-4.637-3.763-8.401-8.4-8.401z"></path>
+  </symbol>
+</svg>
+
+    <h3>WatchWorld</h3>
+    <div class="navigation">
+    <a href="/">Home</a>
+    <a class="Catalog" href="/products">Catalog</a>
+    <a href="/">Reviews</a>
+    <a href="/">Contact Us</a>
+    <a href="/admin">Dashboard</a>
+    <button class="heart-btn">
+        <svg class="my-icon" width="24" height="24">
+            <use href="#icon-heart"></use></svg>
+        </button>
+    <button class="basket-btn">
+        <svg class="my-icon" width="24" height="24">
+            <use href="#icon-cart"></use>
+        </svg>
+    </button>
+    </div>
+    
+
+
+
+
     <% if (products && products.length) {%>
         <div class="products-grid">
             <% products.forEach(product=>{%>
                 <div class="product-card"><a href="/products/<%=product.id %>">
                     <img src="<%=product.image%>" alt="" width="150px">
                     <h2><%=product.title%></h2>
-                    <p><%=product.description%></p>
-                    <span><%=product.price%>£</span>
+                    <p title="<%=product.description%>"><%=product.description%></p>
+                    <span>£<%=product.price%></span>
+                    <div>
+                        <a class="view" href="/products/<%=product.id %>"></a>
+                        <div class="product-actions">
+                        <a class="view" href="/products/<%=product.id %>"></a>
+                        <button class="heart-btn">
+                            <svg class="my-icon" width="24" height="24">
+                                <use href="#icon-heart"></use></svg>
+                            </button>
+                            <button class="basket-btn">
+                                <svg class="my-icon" width="24" height="24">
+                                    <use href="#icon-cart"></use>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
                 </a></div>
                 <%})%>
         </div>
