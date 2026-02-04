@@ -88,44 +88,121 @@
         .product-actions{
             padding-top: 12px;
         }
-        .catalog{
-    
+        .heart-off {
+            display: none;
         }
+        .fav-active .heart {
+            display: none;
+        }
+        .fav-active .heart-off {
+            display: inline;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 40px;
+            border-bottom: 2px solid #000000;
+        }
+        .header h3 {
+            margin: 0;
+            margin-left: 100px;
+        }
+        .header h3 a{
+            margin: 0;
+            color: #333;
+            text-decoration: none;
+        }
+        .navigation {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+            justify-content: center;
+        }
+        .navigation a {
+            text-decoration: none;
+            color: #000;
+            font-weight: bold;
+        }
+        .navigation a.Catalog {
+            text-decoration: underline;
+            text-underline-offset: 4px; 
+            text-decoration-thickness: 3px; 
+        }
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-right: 100px;
+        }
+        .header-icons button {
+            background: none;
+            cursor: pointer;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30%;
+        }
+
+        .header-icons button:hover {
+            transform: scale(1.1); 
+}
+        
+        .header-icons button img {
+            width: 24px;
+            height: 24px;
+        }
+
+.header-icons .heart-btn:hover img {
+            filter: invert(39%) sepia(98%) saturate(2434%) hue-rotate(340deg) brightness(101%) contrast(104%);
+        }
+
+
+
+.dashboard {
+    font-weight: bold;  
+    background-color: #000; 
+    color: white !important; 
+    padding: 10px 20px; 
+    border-radius: 30px; 
+    text-decoration: none; 
+    display: inline-block; 
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.dashboard:hover {
+    background-color: #333; 
+}
+
     </style>
 </head>
 <body>
 
-<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-  <symbol id="icon-cart" viewBox="0 0 32 32">
-    <path d="M12 29c0 1.657-1.343 3-3 3s-3-1.343-3-3c0-1.657 1.343-3 3-3s3 1.343 3 3z"></path>
-    <path d="M32 29c0 1.657-1.343 3-3 3s-3-1.343-3-3c0-1.657 1.343-3 3-3s3 1.343 3 3z"></path>
-    <path d="M32 16v-12h-24c0-1.105-0.895-2-2-2h-6v2h4l1.502 12.877c-0.915 0.733-1.502 1.859-1.502 3.123 0 2.209 1.791 4 4 4h24v-2h-24c-1.105 0-2-0.895-2-2 0-0.007 0-0.014 0-0.020l26-3.98z"></path>
-  </symbol>
-  <symbol id="icon-heart" viewBox="0 0 32 32">
-    <path d="M23.6 2c-3.363 0-6.258 2.736-7.599 5.594-1.342-2.858-4.237-5.594-7.601-5.594-4.637 0-8.4 3.764-8.4 8.401 0 9.433 9.516 11.906 16.001 21.232 6.13-9.268 15.999-12.1 15.999-21.232 0-4.637-3.763-8.401-8.4-8.401z"></path>
-  </symbol>
-</svg>
-
-    <h3>WatchWorld</h3>
-    <div class="navigation">
-    <a href="/">Home</a>
-    <a class="Catalog" href="/products">Catalog</a>
-    <a href="/">Reviews</a>
-    <a href="/">Contact Us</a>
-    <a href="/admin">Dashboard</a>
-    <button class="heart-btn">
-        <svg class="my-icon" width="24" height="24">
-            <use href="#icon-heart"></use></svg>
-        </button>
-    <button class="basket-btn">
-        <svg class="my-icon" width="24" height="24">
-            <use href="#icon-cart"></use>
-        </svg>
-    </button>
+    <div class="header">
+        <h3><a href="/">WatchWorld</a></h3>
+        <div class="navigation">
+            <a href="/home">Home</a>
+            <a href="/home#about">About Us</a>
+            <a class="Catalog" href="/products">Catalog</a>
+            <a href="/home#reviews">Reviews</a>
+            <a href="/home#contact">Contact Us</a>
+            <% if (user && user.role === "superadmin") { %>
+            <a class="dashboard" href="/admin">Dashboard</a>
+            <% } %>
+        </div>
+        <div class="header-icons">
+            <button class="basket-btn">
+                <img src="/images/cart.svg" alt="">
+            </button>
+            <button class="heart-btn">
+                <img src="/images/heart.svg" alt="">
+            </button>
+        </div>
     </div>
     
-
-
 
 
     <% if (products && products.length) {%>
@@ -140,14 +217,20 @@
                         <a class="view" href="/products/<%=product.id %>"></a>
                         <div class="product-actions">
                         <a class="view" href="/products/<%=product.id %>"></a>
-                        <button class="heart-btn">
-                            <svg class="my-icon" width="24" height="24">
-                                <use href="#icon-heart"></use></svg>
-                            </button>
                             <button class="basket-btn">
-                                <svg class="my-icon" width="24" height="24">
-                                    <use href="#icon-cart"></use>
-                                </svg>
+                                <img src="/images/cart.svg" alt="">
+                            </button>
+                            <button 
+                            class="heart-btn" 
+                            id="fav-btn-<%=product.id%>"
+                            data-id="<%=product.id%>" 
+                            data-title="<%=encodeURIComponent(product.title)%>" 
+                            data-price="<%=product.price%>" 
+                            data-image="<%=encodeURIComponent(product.image)%>"
+                            onclick="toggleFav(this, event)"
+                            >
+                            <img class="heart" src="/images/heart.svg" alt="">
+                            <img class="heart-off" src="/images/heartOff.svg" alt="">
                             </button>
                         </div>
                     </div>
@@ -189,5 +272,38 @@
                     <%}%>
             </div>
             <%}%>
+
+    <script src="/js/storage.js"></script>
+    <script>
+        function toggleFav(btn, event){
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            const product = {
+                id:parseInt(btn.dataset.id),
+                title:decodeURIComponent(btn.dataset.title),
+                price:parseFloat(btn.dataset.price),
+                image:decodeURIComponent(btn.dataset.image)
+            }
+            const added = Storage.toggleFav(product)
+            console.log(added)
+            if (added){
+                btn.classList.add("fav-active")
+            } else{
+                btn.classList.remove("fav-active")
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const fav = Storage.getFav()
+            console.log(fav)
+            fav.forEach(element => {
+                const btn = document.getElementById("fav-btn-" + element.id)
+                if (btn) {
+                    btn.classList.add("fav-active")
+                }
+            });
+        });
+    </script>
 </body>
 </html>

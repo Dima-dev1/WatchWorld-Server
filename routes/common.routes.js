@@ -8,5 +8,8 @@ router.get("/", async (req, res) => {
     res.render("index")
 })
 
+router.get("/home", async (req, res) => {
+    res.render("home")
+})
 
 export default router

@@ -1,4 +1,4 @@
-const storage = {
+const Storage = {
     CART_KEY: "WatchCart",
     FAV_KEY: "WatchFav",
     getCart() {
@@ -55,13 +55,11 @@ const storage = {
     },
     addToFav(product) {
         const fav = this.getFav()
-        const exisitingIndex = fav.findIndex((item) => item.id === product.id)
-        if (exisitingIndex > -1) {
-            fav[exisitingIndex].quantity += 1
-        } else {
-            fav.push({...product,quantity:1})
+        const exists = fav.some((item) => item.id === product.id)
+        if (!exists) {
+            fav.push(product)
+            localStorage.setItem(this.FAV_KEY, JSON.stringify(fav))
         }
-        localStorage.setItem(this.FAV_KEY, JSON.stringify(fav))
         return fav
     },
     removeFromFav(productId) {
@@ -73,28 +71,21 @@ const storage = {
     clearFav() {
         localStorage.removeItem(this.FAV_KEY)
     },
-    getFavTotal() {
-        const fav = this.getFav()
-        return fav.reduce((total,item) => {
-            return total + (item.price * item.quantity)
-        },0)
-    },
     getFavCount() {
         const fav = this.getFav()
-        return fav.reduce((count,item) => {
-            return count + item.quantity
-        },0)
+        return fav.length
     },
-    updateFavQuanitity(productId,quantity) {
+    isInFav(productId) {
         const fav = this.getFav()
-        const item = fav.find((item) => item.id === productId)
-        if (item) {
-            if (quantity <= 0) {
-                this.removeFromFav(productId)
-            }
-            item.quantity = quantity
-            localStorage.setItem(this.FAV_KEY, JSON.stringify(fav))
+        return fav.some((item) => item.id === productId)
+    },
+    toggleFav(product) {
+        if (this.isInFav(product.id)) {
+            this.removeFromFav(product.id)
+            return false
+        } else {
+            this.addToFav(product)
+            return true
         }
-        return fav
     }
 }

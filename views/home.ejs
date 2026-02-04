@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            background-color: #EBF8ED;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 40px;
+            border-bottom: 2px solid #000000;
+        }
+        .header h3 {
+            margin: 0;
+            margin-left: 100px;
+        }
+        .header h3 a{
+            margin: 0;
+            color: #333;
+            text-decoration: none;
+        }
+        .navigation {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+            justify-content: center;
+        }
+        .navigation a {
+            text-decoration: none;
+            color: #000;
+            font-weight: bold;
+        }
+        .navigation a.Home {
+            text-decoration: underline;
+            text-underline-offset: 4px; 
+            text-decoration-thickness: 3px; 
+        }
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-right: 100px;
+        }
+        .header-icons button {
+            background: none;
+            cursor: pointer;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30%;
+        }
+        .header-icons button:hover {
+            transform: scale(1.1); 
+        }
+        .header-icons button img {
+            width: 24px;
+            height: 24px;
+        }
+        .header-icons .heart-btn:hover img {
+            filter: invert(39%) sepia(98%) saturate(2434%) hue-rotate(340deg) brightness(101%) contrast(104%);
+        }
+        .dashboard {
+            font-weight: bold;  
+            background-color: #000; 
+            color: white !important; 
+            padding: 10px 20px; 
+            border-radius: 30px; 
+            text-decoration: none; 
+            display: inline-block; 
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .dashboard:hover {
+            background-color: #333; 
+        }
+        
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        
+        .hero {
+            padding: 40px 0;
+        }
+        .hero h1 {
+            font-size: 48px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .hero h1 .highlight {
+            color: #3350E9;
+        }
+        .hero p {
+            font-size: 18px;
+            color: #333;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 0 40px 0;
+            text-align: left;
+        }
+        .hero-image {
+            width: 100%;
+            max-width: 100%;
+            border-radius: 12px;
+            margin: 40px 0 0 0;
+            display: block;
+        }
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+        }
+        
+        #about {
+            padding: 60px 0;
+            margin: 30px 0;
+        }
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: stretch;
+        }
+        .about-text {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            font-size: 16px;
+            color: #333;
+            line-height: 1.8;
+        }
+        .about-text h2 {
+            font-size: 42px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 20px;
+            margin-top: 0;
+        }
+        .about-text p {
+            margin-bottom: 20px;
+        }
+        .catalog-btn {
+            background-color: #3350E9;
+            color: white;
+            padding: 12px 32px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .catalog-btn:hover {
+            background-color: #4e67e5;
+        }
+        .about-image {
+            background-color: #424242;
+            padding: 0;
+            border-radius: 50px;
+            overflow: hidden;
+        }
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+        
+        .advertisement {
+            padding: 30px 0;
+        }
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            border: 0;
+            padding: 0;
+            white-space: nowrap;
+            clip-path: inset(100%);
+            clip: rect(0 0 0 0);
+            overflow: hidden;
+        }
+        .choose {
+            padding: 60px 28px;
+            background-image: url(/images/Home/Image\ 3.png), linear-gradient(#0c0c0c, #0c0c0c);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            border-radius: 30px;
+        }
+        .adv {
+            width: 100%;
+            max-width: 279px;
+            font-weight: 600;
+            font-size: 32px;
+            line-height: 1;
+            letter-spacing: -0.02em;
+            color: #fbfbfb;
+        }
+        .adv span {
+            color: rgba(251, 251, 251, 0.5);
+        }
+        .cta-button {
+            padding: 14px 43px;
+            background: transparent;
+            color: #fbfbfb;
+            border: 1px solid rgba(251, 251, 251, 0.5);
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 1.28571;
+            text-align: center;
+            border-radius: 16px;
+            display: inline-block;
+            margin-top: 28px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .cta-button:hover,
+        .cta-button:focus {
+            color: #0c0c0c;
+            background-color: #fbfbfb;
+        }
+
+        
+        #reviews {
+            padding: 40px 0;
+            margin: 0;
+        }
+        #reviews h2 {
+            font-size: 42px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 40px;
+        }
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        .review-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .review-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            background-color: #ddd;
+            overflow: hidden;
+        }
+        .review-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .review-name {
+            font-weight: bold;
+            font-size: 18px;
+            color: #000;
+            margin-bottom: 10px;
+        }
+        .review-text {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        #contact {
+            padding: 40px 0;
+            margin: 20px 0;
+        }
+        #contact h2 {
+            font-size: 42px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 20px;
+        }
+        .contact-description {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+        .contact-form-wrapper {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+        }
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .contact-form textarea {
+            min-height: 120px;
+            resize: none;
+        }
+
+        
+        .send-btn {
+            background-color: #3350E9;
+            color: white;
+            padding: 12px 32px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .contact-btn-wrapper {
+            display: none;
+        }
+        .send-btn:hover {
+            background-color: #1565c0;
+        }
+        .contact-image {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .contact-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+        }
+        
+
+        footer {
+            background-color: #000000;
+            color: white;
+            padding: 60px 40px 30px;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+            align-items: center;
+        }
+        .footer-logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #000;
+            border: 1px solid white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        .social-icon img {
+            width: 20px;
+            height: 20px;
+            filter: brightness(0) invert(1);
+        }
+        .footer-tagline {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.6;
+        }
+        .footer-phone {
+            text-align: right;
+            font-size: 18px;
+        }
+        .footer-phone-box {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 1px solid white;
+            border-radius: 8px;
+            background-color: #000;
+            text-decoration: none;
+            color: white;
+        }
+        .footer-phone-box:hover {
+            background-color: #333;
+        }
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .footer-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .footer-nav a:hover {
+            text-decoration: underline;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .footer-copyright {
+            font-size: 14px;
+            color: #999;
+        }
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+        .footer-links a {
+            color: #999;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h3><a href="/">WatchWorld</a></h3>
+        <div class="navigation">
+            <a class="Home" href="/home">Home</a>
+            <a href="/home#about">About Us</a>
+            <a href="/products">Catalog</a>
+            <a href="/home#reviews">Reviews</a>
+            <a href="/home#contact">Contact Us</a>
+            <% if (user && user.role === "superadmin") { %>
+            <a class="dashboard" href="/admin">Dashboard</a>
+            <% } %>
+        </div>
+        <div class="header-icons">
+            <button class="basket-btn">
+                <img src="/images/cart.svg" alt="">
+            </button>
+            <button class="heart-btn">
+                <img src="/images/heart.svg" alt="">
+            </button>
+        </div>
+    </div>
+
+    <div class="main-container">
+    <section class="hero">
+        <h1>Welcome to our <span class="highlight">collection</span> of premium watches</h1>
+        <p>Our watches are not just timepieces, but also an expression of your personality and lifestyle. From classic designs to modern ones, we have a watch to suit every taste and occasion.</p>
+        <div class="hero-image">
+            <img src="/images/Home/Image 1.png" alt="Premium Watch">
+        </div>
+    </section>
+
+
+    <section id="about">
+        <div class="about-content">
+            <div class="about-text">
+                <h2>About Us</h2>
+                <p>Welcome to our premium watch collection, where luxury and style meet functionality and precision. Our selection of timepieces embodies the very best in Swiss craftsmanship and engineering, ensuring that you'll always have a reliable and stylish accessory on your wrist.</p>
+                <p>At our premium watch collection, we believe that a watch is more than just a timekeeping device - it's a statement piece that reflects your personality and style. So why settle for anything less than the best?</p>
+                <a href="/products" class="catalog-btn">View catalog</a>
+            </div>
+            <div class="about-image">
+                <img src="/images/Home/Image 2.png" alt="Watch Collection">
+            </div>
+        </div>
+    </section>
+
+    <section class="advertisement">
+        <div class="choose">
+            <h2 class="visually-hidden">g</h2>
+            <p class="adv">
+                Choose <span>your story</span>, making every moment unique. Time is your
+                style, and we reveal it.
+            </p>
+            <a class="cta-button" href="#contact">Contact us</a>
+        </div>
+    </section>
+
+
+    <section id="reviews">
+        <h2>Reviews</h2>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-avatar">
+                    <img src="/images/Home/Daniel Carter.png" alt="Daniel Carter">
+                </div>
+                <div class="review-name">Daniel Carter</div>
+                <div class="review-text">Buying a watch from was the best choice for me. The design is perfectly combined with high quality materials. The strap fits nicely on the hand, and the mechanism works flawlessly.</div>
+            </div>
+            <div class="review-card">
+                <div class="review-avatar">
+                    <img src="/images/Home/Sophia Reynolds.png" alt="Sophia Reynolds">
+                </div>
+                <div class="review-name">Sophia Reynolds</div>
+                <div class="review-text">Can't take my eyes off my watch from. Every time I put it on, it is admired by those around me. The build quality and attention to detail make it a real gem among my accessories.</div>
+            </div>
+            <div class="review-card">
+                <div class="review-avatar">
+                    <img src="/images/Home/Emily Foster.png" alt="Emily Foster">
+                </div>
+                <div class="review-name">Emily Foster</div>
+                <div class="review-text">My watch from is a real masterpiece. Every detail impresses with the high quality of execution. Special features like [specify features] make it an indispensable companion in my daily life.</div>
+            </div>
+        </div>
+    </section>
+
+
+  <section id="contact">
+    <h2>Contact Us</h2>
+  
+    <div class="contact-content">
+      <div class="contact-form-wrapper">
+        <p class="contact-description">Please use the form below to contact us. Enter your name, email, phone, and message
+          and
+          we'll get back to you shortly.</p>
+         <form class="contact-form" action="/contact" method="POST">
+           <input type="text" name="name" placeholder="Name" required>
+           <input type="email" name="email" placeholder="Email" required>
+           <input type="tel" name="phone" placeholder="+44" required>
+           <textarea name="message" placeholder="Comment" required></textarea>
+           <button type="submit" class="send-btn">Send</button>
+         </form>
+       </div>
+       <div class="contact-image">
+         <img src="/images/Home/Image 4.png" alt="Contact Watch">
+       </div>
+     </div>
+   </section>
+    </div>
+
+
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-top">
+                <div>
+                    <div class="footer-logo">WatchWorld</div>
+                    <div class="social-icons">
+                        <a href="https://facebook.com" class="social-icon"><img src="/images/facebook.svg" alt="Facebook"></a>
+                        <a href="https://instagram.com" class="social-icon"><img src="/images/instagram.svg" alt="Instagram"></a>
+                        <a href="https://youtube.com" class="social-icon"><img src="/images/youtube.svg" alt="YouTube"></a>
+                    </div>
+                </div>
+                <div class="footer-tagline">
+                    Have the time of your life with our watches: where high-class craftsmanship meets impeccable design
+                </div>
+                <div class="footer-phone">
+                    <a href="tel:+4402764412582" class="footer-phone-box">+44 0 2764 412582</a>
+                </div>
+            </div>
+            <div class="footer-nav">
+                <a href="/home">Home</a>
+                <a href="/home#about">About Us</a>
+                <a href="/products">Catalog</a>
+                <a href="/home#reviews">Reviews</a>
+                <a href="/home#contact">Contact Us</a>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">©2025 WatchWorld. All rights reserved.</div>
+                <div class="footer-links">
+                    <a href="https://www.termsfeed.com/public/uploads/2021/12/sample-terms-of-service-template.pdf">Terms of Service</a>
+                    <a href="https://www.termsfeed.com/public/uploads/2021/12/sample-privacy-policy-template.pdf">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

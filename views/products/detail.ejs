@@ -11,24 +11,8 @@
   margin: 0;
   padding: 0;
 }
-.heart-btn{
-  fill: red;
-}
 </style>
   <body>
-
-<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-  <symbol id="icon-cart" viewBox="0 0 32 32">
-    <path d="M12 29c0 1.657-1.343 3-3 3s-3-1.343-3-3c0-1.657 1.343-3 3-3s3 1.343 3 3z"></path>
-    <path d="M32 29c0 1.657-1.343 3-3 3s-3-1.343-3-3c0-1.657 1.343-3 3-3s3 1.343 3 3z"></path>
-    <path d="M32 16v-12h-24c0-1.105-0.895-2-2-2h-6v2h4l1.502 12.877c-0.915 0.733-1.502 1.859-1.502 3.123 0 2.209 1.791 4 4 4h24v-2h-24c-1.105 0-2-0.895-2-2 0-0.007 0-0.014 0-0.020l26-3.98z"></path>
-  </symbol>
-  <symbol id="icon-heart" viewBox="0 0 32 32">
-    <path d="M23.6 2c-3.363 0-6.258 2.736-7.599 5.594-1.342-2.858-4.237-5.594-7.601-5.594-4.637 0-8.4 3.764-8.4 8.401 0 9.433 9.516 11.906 16.001 21.232 6.13-9.268 15.999-12.1 15.999-21.232 0-4.637-3.763-8.401-8.4-8.401z"></path>
-  </symbol>
-</svg>
-
-
 
     <%
     const formatCharacteristics= (str) =>{
@@ -49,13 +33,10 @@
     <div class="product-actions">
       <a class="view" href="/products/<%=product.id %>"></a>
       <button class="heart-btn">
-        <svg class="my-icon" width="24" height="24">
-          <use href="#icon-heart"></use></svg>
+          <img src="/images/heart.svg" alt="">
       </button>
       <button class="basket-btn">
-        <svg class="my-icon" width="24" height="24">
-          <use href="#icon-cart"></use>
-        </svg>
+        <img src="/images/cart.svg" alt="">
       </button>
     </div>
 
