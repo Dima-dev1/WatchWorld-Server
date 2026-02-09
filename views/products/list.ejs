@@ -194,12 +194,16 @@
             <% } %>
         </div>
         <div class="header-icons">
+            <a href="/basket">
             <button class="basket-btn">
                 <img src="/images/cart.svg" alt="">
             </button>
+            </a>
+            <a href="/favourite">
             <button class="heart-btn">
                 <img src="/images/heart.svg" alt="">
             </button>
+            </a>
         </div>
     </div>
     
@@ -217,9 +221,20 @@
                         <a class="view" href="/products/<%=product.id %>"></a>
                         <div class="product-actions">
                         <a class="view" href="/products/<%=product.id %>"></a>
-                            <button class="basket-btn">
+
+
+                            <button class="basket-btn"
+                            data-id="<%=product.id%>"
+                            data-title="<%=encodeURIComponent(product.title)%>" 
+                            data-price="<%=product.price%>" 
+                            data-image="<%=encodeURIComponent(product.image)%>"
+                            onclick="addToCart(this,event)"
+                            >
                                 <img src="/images/cart.svg" alt="">
                             </button>
+
+
+    
                             <button 
                             class="heart-btn" 
                             id="fav-btn-<%=product.id%>"
@@ -293,6 +308,19 @@
             } else{
                 btn.classList.remove("fav-active")
             }
+        }
+        function addToCart(btn,event){
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            const product = {
+                id:parseInt(btn.dataset.id),
+                title:decodeURIComponent(btn.dataset.title),
+                price:parseFloat(btn.dataset.price),
+                image:decodeURIComponent(btn.dataset.image)
+            }
+            Storage.addToCart(product)
         }
         document.addEventListener('DOMContentLoaded', () => {
             const fav = Storage.getFav()

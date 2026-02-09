@@ -7,10 +7,20 @@
   </head>
   <style>
     body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    }
+    
+    .heart-off {
+        display: none;
+    }
+    .fav-active .heart {
+        display: none;
+    }
+    .fav-active .heart-off {
+        display: inline;
+    }
 </style>
   <body>
 
@@ -32,17 +42,80 @@
 
     <div class="product-actions">
       <a class="view" href="/products/<%=product.id %>"></a>
-      <button class="heart-btn">
-          <img src="/images/heart.svg" alt="">
-      </button>
-      <button class="basket-btn">
-        <img src="/images/cart.svg" alt="">
-      </button>
+      <button class="basket-btn"
+                            data-id="<%=product.id%>"
+                            data-title="<%=encodeURIComponent(product.title)%>" 
+                            data-price="<%=product.price%>" 
+                            data-image="<%=encodeURIComponent(product.image)%>"
+                            onclick="addToCart(this,event)"
+                            >
+                                <img src="/images/cart.svg" alt="">
+                            </button>
+
+
+
+                            <button 
+                            class="heart-btn" 
+                            id="fav-btn-<%=product.id%>"
+                            data-id="<%=product.id%>" 
+                            data-title="<%=encodeURIComponent(product.title)%>" 
+                            data-price="<%=product.price%>" 
+                            data-image="<%=encodeURIComponent(product.image)%>"
+                            onclick="toggleFav(this, event)"
+                            >
+                            <img class="heart" src="/images/heart.svg" alt="">
+                            <img class="heart-off" src="/images/heartOff.svg" alt="">
+                            </button>
     </div>
 
     <p class="product-characteristics" title="<%=product.characteristics%>"><%-formatCharacteristics(product.characteristics) %></p>
     <p class="product-description" title="<%=product.description%>"><%=product.description%></p>
 
     </div>
+    <script src="/js/storage.js"></script>
+    <script>
+        function toggleFav(btn, event){
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            const product = {
+                id:parseInt(btn.dataset.id),
+                title:decodeURIComponent(btn.dataset.title),
+                price:parseFloat(btn.dataset.price),
+                image:decodeURIComponent(btn.dataset.image)
+            }
+            const added = Storage.toggleFav(product)
+            console.log(added)
+            if (added){
+                btn.classList.add("fav-active")
+            } else{
+                btn.classList.remove("fav-active")
+            }
+        }
+        function addToCart(btn,event){
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            const product = {
+                id:parseInt(btn.dataset.id),
+                title:decodeURIComponent(btn.dataset.title),
+                price:parseFloat(btn.dataset.price),
+                image:decodeURIComponent(btn.dataset.image)
+            }
+            Storage.addToCart(product)
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const fav = Storage.getFav()
+            console.log(fav)
+            fav.forEach(element => {
+                const btn = document.getElementById("fav-btn-" + element.id)
+                if (btn) {
+                    btn.classList.add("fav-active")
+                }
+            });
+        });
+    </script>
   </body>
 </html>

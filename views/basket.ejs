@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basket</title>
+  </head>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 0;
+      background-color: #ebf8ed;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      border-bottom: 2px solid #000000;
+    }
+    .header h3 {
+      margin: 0;
+      margin-left: 100px;
+    }
+    .header h3 a {
+      margin: 0;
+      color: #333;
+      text-decoration: none;
+    }
+    .navigation {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex: 1;
+      justify-content: center;
+    }
+    .navigation a {
+      text-decoration: none;
+      color: #000;
+      font-weight: bold;
+    }
+    .header-icons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-right: 100px;
+    }
+    .header-icons button {
+      background: none;
+      cursor: pointer;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 30%;
+    }
+    .header-icons button:hover {
+      transform: scale(1.1);
+    }
+    .header-icons a img {
+      width: 24px;
+      height: 24px;
+    }
+    .dashboard {
+      font-weight: bold;
+      background-color: #000;
+      color: white !important;
+      padding: 10px 20px;
+      border-radius: 30px;
+    }
+    .main-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px;
+    }
+    .page-title {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .products-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      justify-content: center;
+    }
+    .product-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+      padding: 24px 16px;
+      width: 260px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .product-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .product-actions button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+    .product-actions img {
+      width: 24px;
+    }
+    .empty-message {
+      text-align: center;
+      padding: 60px 20px;
+    }
+  </style>
+
+  <body>
+    <div class="header">
+        <h3><a href="/">WatchWorld</a></h3>
+        <div class="navigation">
+            <a href="/home">Home</a>
+            <a href="/home#about">About Us</a>
+            <a class="Catalog" href="/products">Catalog</a>
+            <a href="/home#reviews">Reviews</a>
+            <a href="/home#contact">Contact Us</a>
+            <% if (user && user.role === "superadmin") { %>
+            <a class="dashboard" href="/admin">Dashboard</a>
+            <% } %>
+        </div>
+        <div class="header-icons">
+            <a href="/basket">
+            <button class="basket-btn">
+                <img src="/images/cart.svg" alt="">
+            </button>
+            </a>
+            <a href="/favourite">
+            <button class="heart-btn">
+                <img src="/images/heart.svg" alt="">
+            </button>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-container">
+      <h1 class="page-title">My Basket</h1>
+
+      <div id="basket-container">
+        <div class="empty-message" id="empty-message" style="display: none">
+          <h2>Your basket list is empty</h2>
+          <p>Browse our catalog and add watches you like to your basket!</p>
+          <a href="/products">View Catalog</a>
+        </div>
+        <div class="products-grid" id="basket-grid"></div>
+      </div>
+    </div>
+
+    <script src="/js/storage.js"></script>
+  </body>
+</html>

@@ -12,4 +12,12 @@ router.get("/home", async (req, res) => {
     res.render("home")
 })
 
+router.get("/favourite", async (req, res) => {
+    res.render("favourite")
+})
+
+router.get("/basket", async (req, res) => {
+    res.render("basket")
+})
+
 export default router

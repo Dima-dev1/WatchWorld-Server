@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Favourite</title>
+  </head>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            background-color: #EBF8ED;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 40px;
+            border-bottom: 2px solid #000000;
+        }
+        .header h3 {
+            margin: 0;
+            margin-left: 100px;
+        }
+        .header h3 a {
+            margin: 0;
+            color: #333;
+            text-decoration: none;
+        }
+        .navigation {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+            justify-content: center;
+        }
+        .navigation a {
+            text-decoration: none;
+            color: #000;
+            font-weight: bold;
+        }
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-right: 100px;
+        }
+        .header-icons button {
+            background: none;
+            cursor: pointer;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30%;
+            text-decoration: none;
+        }
+        .header-icons button:hover {
+            transform: scale(1.1);
+        }
+        .header-icons a img {
+            width: 24px;
+            height: 24px;
+        }
+        .header-icons .heart-btn:hover img {
+            filter: invert(39%) sepia(98%) saturate(2434%) hue-rotate(340deg) brightness(101%) contrast(104%);
+        }
+
+        .dashboard {
+            font-weight: bold;
+            background-color: #000;
+            color: white !important;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .dashboard:hover {
+            background-color: #333;
+        }
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+        .page-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .products-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+            justify-content: center;
+            padding: 20px 0;
+        }
+        .product-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            padding: 24px 16px;
+            width: 260px;
+            text-align: center;
+            transition: box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .product-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+        }
+        .product-card img.product-image {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            margin-bottom: 12px;
+        }
+        .product-card h2 {
+            font-size: 19px;
+            margin: 0 0 8px 0;
+            color: #222;
+        }
+        .product-card .price {
+            font-weight: bold;
+            color: #1976d2;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+        .product-card a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .product-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .product-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .product-actions button:hover {
+            transform: scale(1.1);
+        }
+.product-actions button img {
+            width: 24px;
+            height: 24px;
+        }
+        .remove-btn {
+            background-color: #ff4444 !important;
+            border-radius: 8px !important;
+            padding: 8px 16px !important;
+        }
+        .remove-btn:hover {
+            background-color: #cc0000 !important;
+        }
+        .remove-btn img {
+            filter: brightness(0) invert(1);
+        }
+        .cart-btn:hover img {
+            filter: invert(39%) sepia(98%) saturate(2434%) hue-rotate(190deg) brightness(101%) contrast(104%);
+        }
+        .empty-message {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        .empty-message h2 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: #333;
+        }
+        .empty-message p {
+            font-size: 16px;
+            margin-bottom: 24px;
+        }
+        .empty-message a {
+            display: inline-block;
+            background-color: #3350E9;
+            color: white;
+            padding: 12px 32px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .empty-message a:hover {
+            background-color: #4e67e5;
+        }
+    </style>
+  <body>
+    <div class="header">
+        <h3><a href="/">WatchWorld</a></h3>
+        <div class="navigation">
+            <a href="/home">Home</a>
+            <a href="/home#about">About Us</a>
+            <a class="Catalog" href="/products">Catalog</a>
+            <a href="/home#reviews">Reviews</a>
+            <a href="/home#contact">Contact Us</a>
+            <% if (user && user.role === "superadmin") { %>
+            <a class="dashboard" href="/admin">Dashboard</a>
+            <% } %>
+        </div>
+        <div class="header-icons">
+            <a href="/basket">
+            <button class="basket-btn">
+                <img src="/images/cart.svg" alt="">
+            </button>
+            </a>
+            <a href="/favourite">
+            <button class="heart-btn">
+                <img src="/images/heart.svg" alt="">
+            </button>
+            </a>
+        </div>
+    </div>
+
+<div class="main-container">
+        <h1 class="page-title">My Favorites</h1>
+
+        <div id="favorites-container">
+            <div class="empty-message" id="empty-message" style="display: none;">
+                <h2>Your favorites list is empty</h2>
+                <p>Browse our catalog and add watches you like to your favorites!</p>
+                <a href="/products">View Catalog</a>
+            </div>
+            <div class="products-grid" id="favorites-grid"></div>
+        </div>
+    </div>
+
+
+    <script src="/js/storage.js"></script>
+    <script>
+        function renderFav(){
+        const fav = Storage.getFav()
+        const grid = document.getElementById("favorites-grid")
+        const emptyMessage = document.getElementById("empty-message")
+        grid.innerHTML = ""
+        if (fav.length === 0){
+            emptyMessage.style.display = "block"
+            grid.style.display = "none"
+            return
+        }
+        emptyMessage.style.display = "none"
+        grid.style.display = "flex"
+
+
+// <p title="${product.description}">${product.description}</p>
+        
+        fav.forEach(product => {
+            const card = document.createElement("div")
+            card.className = "product-card"
+            card.id = "fav-card-"+product.id
+            card.innerHTML = `
+            <a href="/products/${product.id}">
+                    <img src="${product.image}" alt="" width="150px">
+                    <h2>${product.title}</h2>
+                    
+                    <span>£${product.price}</span>
+                    <div>
+                        <a class="view" href="/products/${product.id}"></a>
+                        <div class="product-actions">
+                        <a class="view" href="/products/${product.id}"></a>
+
+
+                            <button class="basket-btn"
+                            onclick="addToCart(${product.id},${encodeURIComponent(product.title)},${product.price},${encodeURIComponent(product.image)})"
+                            >
+                                <img src="/images/cart.svg" alt="">
+                            </button>
+
+
+
+                            <button 
+                            class="heart-btn" 
+                            onclick="removeFromFav(${product.id})"
+                            >
+                            <img class="heart-off" src="/images/heartOff.svg" alt="">
+                            </button>
+                        </div>
+                    </div>
+                </a>
+            `
+            grid.appendChild(card)
+            
+        });
+        }
+        function removeFromFav(productId) {
+            Storage.removeFromFav(productId)
+            renderFav()
+        }
+        function addToCart(id,title,price,image){
+            const product = {
+                id,price,title:decodeURIComponent(title),image:decodeURIComponent(image)
+
+            }
+            Storage.addToCart(product)
+        }
+        document.addEventListener('DOMContentLoaded', renderFav)
+    </script>
+  </body>
+</html>
