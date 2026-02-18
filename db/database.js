@@ -24,6 +24,32 @@ db.run(`
     )
 `)
 
+db.run(`
+    CREATE TABLE IF NOT EXISTS orders (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT NOT NULL,
+        first_name TEXT NOT NULL,
+        last_name TEXT NOT NULL,
+        address TEXT NOT NULL,
+        phone TEXT NOT NULL,
+        total REAL,
+        status TEXT DEFAULT "pending",
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+`)
+
+db.run(`
+    CREATE TABLE IF NOT EXISTS order_items (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        order_id INTEGER,
+        product_id INTEGER,
+        title TEXT,
+        price REAL,
+        quantity INTEGER,
+        image TEXT
+    )
+`)
+
 db.get("SELECT COUNT(*) as count FROM users", (err, row) => {
   if (err) return console.error(err);
 

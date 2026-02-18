@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout</title>
+  </head>
+  <body>
+    <div class="header">
+      <h3><a href="/">WatchWorld</a></h3>
+
+      <div class="navigation">
+        <a href="/home">Home</a>
+        <a href="/home#about">About Us</a>
+        <a href="/products">Catalog</a>
+        <a href="/home#reviews">Reviews</a>
+        <a href="/home#contact">Contact Us</a>
+        <% if (user && user.role === "superadmin") { %>
+          <a class="dashboard" href="/admin">Dashboard</a>
+        <% } %>
+      </div>
+
+      <div class="header-icons">
+        <a href="/basket">
+          <button><img src="/images/cart.svg" /></button>
+        </a>
+        <a href="/favourite">
+          <button><img src="/images/heart.svg" /></button>
+        </a>
+      </div>
+    </div>
+
+    <div class="main-container">
+      <h1 class="page-title">Checkout</h1>
+      <% if (typeof error !== 'undefined' && error) { %>
+        <p><%= error %></p>
+        <% } %>
+
+      <div id="checkout-content">
+
+    </div>
+
+    <script src="/js/storage.js"></script>
+    <script>
+        function renderCheckout() {
+        const cart = Storage.getCart();
+        const grid = document.getElementById("checkout-content");
+
+        if (!cart.length){
+            grid.innerHTML = `your cart is empty`
+            return
+        }
+
+        let total = 0
+        let summaryItems = ""
+
+        cart.forEach(item => {
+            let itemTotal = item.quantity * item.price
+            total += itemTotal;
+
+            summaryItems += `<div class="summary-item">
+              <div class="summary-item-info">
+                <img src="${item.image}" alt="">
+                <div>
+                  <div><strong>${item.title}</strong></div>
+                  <div>x${item.quantity}</div>
+                </div>
+              </div>
+              <div>£${itemTotal.toFixed(2)}</div>
+            </div>`
+        });
+
+        grid.innerHTML = `
+        <div>
+            <h2>order summary</h2>
+            ${summaryItems}
+            <div>total:£${total.toFixed(2)} </div>
+            </div>
+        `
+        }
+
+
+        document.addEventListener("DOMContentLoaded", renderCheckout);
+    </script>
+  </body>
+</html>
