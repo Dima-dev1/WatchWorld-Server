@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orders</title>
+    <style>
+      body {
+        background-color: #ebf8ed;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 2px solid blue;
+        padding: 10px;
+      }
+      a {
+        color: black;
+        text-decoration: none;
+        padding: 8px 16px;
+        background-color: #000000;
+        color: white;
+        border-radius: 4px;
+        margin-right: 12px;
+        text-transform: capitalize;
+        transition: background-color 0.3s;
+      }
+      a:hover {
+        background-color: #2a2a2b;
+      }
+
+      .btn-edit,
+      .btn-delete {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        cursor: pointer;
+        text-transform: capitalize;
+        transition: all 0.3s ease;
+        font-size: 14px;
+        margin-right: 10px;
+        width: 80px;
+        display: inline-block;
+        text-align: center;
+        box-sizing: border-box;
+      }
+
+      .btn-edit {
+        background-color: #4caf50;
+      }
+
+      .btn-edit:hover {
+        background-color: #45a049;
+      }
+
+      .btn-delete {
+        background-color: #e53935;
+      }
+
+      .btn-delete:hover {
+        background-color: #d32f2f;
+      }
+
+      .admin-nav {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="admin-nav">
+      <a href="/home">Home</a>
+      <a href="/admin/products/create">Add Product</a>
+      <a href="/admin/orders">Orders</a>
+    </div>
+    <%= JSON.stringify(orders) %>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Customer</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Address</th>
+          <th>Status</th>
+          <th>Total</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (orders && orders.length) { %>
+        <% orders.forEach(order => { %>
+        <tr>
+          <td><%= order.id %></td>
+          <td>
+            <%= order.first_name %>
+            <%=order.last_name %>
+          </td>
+          <td><%= order.email %></td>
+          <td><%= order.phone %></td>
+          <td><%= order.address %></td>
+          <td><%= order.status %></td>
+          <td><%= order.total %></td>
+          <td><%= new Date(order.created_at).toLocaleDateString() %></td>
+          <td>
+            <button onclick="toggleDetail(<%=order.id %>)">view</button>
+            <form action="/admin/orders/<%=order.id%>/status" method="POST">
+              <% if(order.status === 'pending'){%>
+              <input type="hidden" name="status" value="completed" />
+              <button type="submit">mark completed</button>
+              <%} else{%>
+              <input type="hidden" name="status" value="pending" />
+              <button type="submit">mark pending</button>
+              <%}%>
+            </form>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="9">
+            <div class="order-detail" id="detail-<%= order.id%>">
+              <strong>order items:</strong>
+              <table border="1">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+
+                    <th>Price</th>
+                    <th>Image</th>
+                    <th>quantity</th>
+                    <th>subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if (order.items && order.items.length) { %>
+                  <% order.items.forEach(item => { %>
+                  <tr>
+                    <td><%= item.title %></td>
+
+                    <td><%= item.price %></td>
+                    <td>
+                      <% if (item.image) { %>
+                      <img
+                        src="<%= item.image %>"
+                        alt="<%= item.title %>"
+                        width="60"
+                      />
+                      <% } else { %>
+                      No image
+                      <% } %>
+                    </td>
+                    <td><%= item.quantity%></td>
+                    <td><%= ((item.quantity?? 1) * item.price).toFixed(2)%></td>
+                  </tr>
+                  <% }) %>
+                  <% } else { %>
+                  <tr>
+                    <td colspan="6">No products found</td>
+                  </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </td>
+        </tr>
+
+        <% }) %>
+        <% } else { %>
+        <tr>
+          <td colspan="9">No Orders found</td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </body>
+  <script>
+    function toggleDetail(id) {
+      const detail = document.getElementById("detail-" + id);
+      detail.classList.toggle("open");
+    }
+  </script>
+</html>

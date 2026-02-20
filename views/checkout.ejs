@@ -76,7 +76,23 @@
             ${summaryItems}
             <div>total:£${total.toFixed(2)} </div>
             </div>
+
+
+            <form method="POST" action="/orders" class="checkout-form" id="checkout-form">
+              <input type="text" id="first_name" name="first_name" required>
+              <input type="text" id="last_name" name="last_name" required>
+              <input type="email" id="email" name="email" required>
+              <input type="tel" id="phone" name="phone" required>
+              <input type="text" id="address" name="address" required>
+
+              <input type="hidden" id="cart" name="cart" value="">
+              <input type="hidden" id="total" name="total" value="${total.toFixed(2)}">
+
+              <button type="submit">Submit</button>
+              </form>
         `
+
+        document.getElementById("cart").value=JSON.stringify(cart)
         }
 
 
