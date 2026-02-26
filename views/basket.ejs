@@ -44,7 +44,6 @@
       text-decoration: none;
       color: #000;
       font-weight: bold;
-
     }
 
     .header-icons {
@@ -54,15 +53,15 @@
     }
 
     .header-icons button {
-            background: none;
-            cursor: pointer;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 30%;
-            text-decoration: none;
-        }
+      background: none;
+      cursor: pointer;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 30%;
+      text-decoration: none;
+    }
 
     .header-icons img {
       width: 24px;
@@ -70,19 +69,21 @@
     }
 
     .dashboard {
-        font-weight: bold;
-        background-color: #000;
-        color: white !important;
-        padding: 10px 20px;
-        border-radius: 30px;
-        
-        text-decoration: none;
-        display: inline-block;
-        transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-      .dashboard:hover {
-        background-color: #333;
-      }
+      font-weight: bold;
+      background-color: #000;
+      color: white !important;
+      padding: 10px 20px;
+      border-radius: 30px;
+
+      text-decoration: none;
+      display: inline-block;
+      transition:
+        background-color 0.3s ease,
+        transform 0.3s ease;
+    }
+    .dashboard:hover {
+      background-color: #333;
+    }
 
     .main-container {
       max-width: 1200px;
@@ -97,14 +98,14 @@
       margin-bottom: 30px;
     }
 
+    /* GRID */
     .products-grid {
       display: flex;
       flex-wrap: wrap;
       gap: 32px;
       justify-content: center;
     }
-
-
+    /* CART ITEM CARD */
     .cart-item {
       background: #fff;
       width: 260px;
@@ -142,18 +143,17 @@
     }
 
     .empty-message a {
-            display: inline-block;
-            background-color: #3350E9;
-            color: white;
-            padding: 12px 32px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .empty-message a:hover {
-            background-color: #4e67e5;
-        }
-
+      display: inline-block;
+      background-color: #3350e9;
+      color: white;
+      padding: 12px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .empty-message a:hover {
+      background-color: #4e67e5;
+    }
 
     .cart-total {
       width: 100%;
@@ -168,13 +168,13 @@
       <h3><a href="/">WatchWorld</a></h3>
 
       <div class="navigation">
-        <a href="/home">Home</a>
-        <a href="/home#about">About Us</a>
+        <a href="/">Home</a>
+        <a href="/#about">About Us</a>
         <a href="/products">Catalog</a>
-        <a href="/home#reviews">Reviews</a>
-        <a href="/home#contact">Contact Us</a>
+        <a href="/#reviews">Reviews</a>
+        <a href="/#contact">Contact Us</a>
         <% if (user && user.role === "superadmin") { %>
-          <a class="dashboard" href="/admin">Dashboard</a>
+        <a class="dashboard" href="/admin">Dashboard</a>
         <% } %>
       </div>
 
@@ -223,7 +223,7 @@
         let html = "";
         let total = 0;
 
-        cart.forEach(product => {
+        cart.forEach((product) => {
           let productTotal = product.price * product.quantity;
           total += productTotal;
 

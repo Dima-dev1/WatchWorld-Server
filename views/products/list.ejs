@@ -1,337 +1,360 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Catalog</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f7f7f7;
-            margin: 0;
-            padding: 0;
-            background-color: #EBF8ED;
-        }
-        .products-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 32px;
-            justify-content: center;
-            padding: 48px 0;
-        }
-        .product-card {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-            padding: 24px 16px;
-            width: 260px;
-            text-align: center;
-            transition: box-shadow 0.2s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .product-card:hover {
-            box-shadow: 0 4px 16px rgba(0,0,0,0.13);
-        }
-        .product-card img {
-            margin-bottom: 12px;
-        }
-        .product-card h2 {
-            font-size: 19px;
-            margin: 0 0 8px 0;
-            color: #222;
-        }
-        .product-card span {
-            font-weight: bold;
-            color: #1976d2;
-            font-size: 18px;
-        }
-        .product-card a {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-        .paganation {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-        }
-        .paganation a, .paganation span {
-            padding: 6px 12px;
-            background: #fff;
-            color: #1976d2;
-            border: 1px solid #ddd;
-            min-width: 32px;
-            text-align: center;
-        }
-        .paganation .active {
-            background: #1976d2;
-            color: #fff;
-            border: 1px solid #1976d2;
-        }
-        .paganation .disabled {
-            color: #aaa;
-            background: #f0f0f0;
-            border: 1px solid #eee;
-            cursor: not-allowed;
-        }
-        .product-card p{
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        .heart-btn{
-            fill: red;
-        }
-        .product-actions{
-            padding-top: 12px;
-        }
-        .heart-off {
-            display: none;
-        }
-        .fav-active .heart {
-            display: none;
-        }
-        .fav-active .heart-off {
-            display: inline;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        background: #f7f7f7;
+        margin: 0;
+        padding: 0;
+        background-color: #ebf8ed;
+      }
+      .products-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 32px;
+        justify-content: center;
+        padding: 48px 0;
+      }
+      .product-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+        padding: 24px 16px;
+        width: 260px;
+        text-align: center;
+        transition: box-shadow 0.2s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .product-card:hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
+      }
+      .product-card img {
+        margin-bottom: 12px;
+      }
+      .product-card h2 {
+        font-size: 19px;
+        margin: 0 0 8px 0;
+        color: #222;
+      }
+      .product-card span {
+        font-weight: bold;
+        color: #1976d2;
+        font-size: 18px;
+      }
+      .product-card a {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+      .paganation {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+      }
+      .paganation a,
+      .paganation span {
+        padding: 6px 12px;
+        background: #fff;
+        color: #1976d2;
+        border: 1px solid #ddd;
+        min-width: 32px;
+        text-align: center;
+      }
+      .paganation .active {
+        background: #1976d2;
+        color: #fff;
+        border: 1px solid #1976d2;
+      }
+      .paganation .disabled {
+        color: #aaa;
+        background: #f0f0f0;
+        border: 1px solid #eee;
+        cursor: not-allowed;
+      }
+      .product-card p {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .heart-btn {
+        fill: red;
+      }
+      .product-actions {
+        padding-top: 12px;
+      }
+      .heart-off {
+        display: none;
+      }
+      .fav-active .heart {
+        display: none;
+      }
+      .fav-active .heart-off {
+        display: inline;
+      }
 
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px 40px;
-            border-bottom: 2px solid #000000;
-        }
-        .header h3 {
-            margin: 0;
-            margin-left: 100px;
-        }
-        .header h3 a{
-            margin: 0;
-            color: #333;
-            text-decoration: none;
-        }
-        .navigation {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex: 1;
-            justify-content: center;
-        }
-        .navigation a {
-            text-decoration: none;
-            color: #000;
-            font-weight: bold;
-        }
-        .navigation a.Catalog {
-            text-decoration: underline;
-            text-underline-offset: 4px; 
-            text-decoration-thickness: 3px; 
-        }
-        .header-icons {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-right: 100px;
-        }
-        .header-icons button {
-            background: none;
-            cursor: pointer;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 30%;
-        }
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 40px;
+        border-bottom: 2px solid #000000;
+      }
+      .header h3 {
+        margin: 0;
+        margin-left: 100px;
+      }
+      .header h3 a {
+        margin: 0;
+        color: #333;
+        text-decoration: none;
+      }
+      .navigation {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex: 1;
+        justify-content: center;
+      }
+      .navigation a {
+        text-decoration: none;
+        color: #000;
+        font-weight: bold;
+      }
+      .navigation a.Catalog {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+        text-decoration-thickness: 3px;
+      }
+      .header-icons {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-right: 100px;
+      }
+      .header-icons button {
+        background: none;
+        cursor: pointer;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 30%;
+      }
 
-        .header-icons button:hover {
-            transform: scale(1.1); 
-}
-        
-        .header-icons button img {
-            width: 24px;
-            height: 24px;
-        }
+      .header-icons button:hover {
+        transform: scale(1.1);
+      }
 
-.header-icons .heart-btn:hover img {
-            filter: invert(39%) sepia(98%) saturate(2434%) hue-rotate(340deg) brightness(101%) contrast(104%);
-        }
+      .header-icons button img {
+        width: 24px;
+        height: 24px;
+      }
 
+      .header-icons .heart-btn:hover img {
+        filter: invert(39%) sepia(98%) saturate(2434%) hue-rotate(340deg)
+          brightness(101%) contrast(104%);
+      }
 
+      .dashboard {
+        font-weight: bold;
+        background-color: #000;
+        color: white !important;
+        padding: 10px 20px;
+        border-radius: 30px;
+        text-decoration: none;
+        display: inline-block;
+        transition:
+          background-color 0.3s ease,
+          transform 0.3s ease;
+      }
 
-.dashboard {
-    font-weight: bold;  
-    background-color: #000; 
-    color: white !important; 
-    padding: 10px 20px; 
-    border-radius: 30px; 
-    text-decoration: none; 
-    display: inline-block; 
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.dashboard:hover {
-    background-color: #333; 
-}
-
+      .dashboard:hover {
+        background-color: #333;
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <div class="header">
-        <h3><a href="/">WatchWorld</a></h3>
-        <div class="navigation">
-            <a href="/home">Home</a>
-            <a href="/home#about">About Us</a>
-            <a class="Catalog" href="/products">Catalog</a>
-            <a href="/home#reviews">Reviews</a>
-            <a href="/home#contact">Contact Us</a>
-            <% if (user && user.role === "superadmin") { %>
-            <a class="dashboard" href="/admin">Dashboard</a>
-            <% } %>
-        </div>
-        <div class="header-icons">
-            <a href="/basket">
-            <button class="basket-btn">
-                <img src="/images/cart.svg" alt="">
-            </button>
-            </a>
-            <a href="/favourite">
-            <button class="heart-btn">
-                <img src="/images/heart.svg" alt="">
-            </button>
-            </a>
-        </div>
+      <h3><a href="/">WatchWorld</a></h3>
+      <div class="navigation">
+        <a href="/">Home</a>
+        <a href="/#about">About Us</a>
+        <a class="Catalog" href="/products">Catalog</a>
+        <a href="/#reviews">Reviews</a>
+        <a href="/#contact">Contact Us</a>
+        <% if (user && user.role === "superadmin") { %>
+        <a class="dashboard" href="/admin">Dashboard</a>
+        <% } %>
+      </div>
+      <div class="header-icons">
+        <a href="/basket">
+          <button class="basket-btn">
+            <img src="/images/cart.svg" alt="" />
+          </button>
+        </a>
+        <a href="/favourite">
+          <button class="heart-btn">
+            <img src="/images/heart.svg" alt="" />
+          </button>
+        </a>
+      </div>
     </div>
-    
 
+    <div>
+      <form action="/products" method="GET">
+        <input
+          type="text"
+          name="search"
+          value="<%=search || '' %>"
+          placeholder="search"
+        />
+        <input
+          type="number"
+          name="minPrice"
+          min="0"
+          value="<%=minPrice || '' %>"
+          placeholder="min price"
+        />
+        <input
+          type="number"
+          name="maxPrice"
+          min="0"
+          value="<%=maxPrice || '' %>"
+          placeholder="max price"
+        />
+        <button type="submit">apply filters</button>
+        <% if (search || minPrice || maxPrice) {%>
+        <a href="/products">clear</a>
+        <%}%>
+      </form>
+    </div>
 
     <% if (products && products.length) {%>
-        <div class="products-grid">
-            <% products.forEach(product=>{%>
-                <div class="product-card"><a href="/products/<%=product.id %>">
-                    <img src="<%=product.image%>" alt="" width="150px">
-                    <h2><%=product.title%></h2>
-                    <p title="<%=product.description%>"><%=product.description%></p>
-                    <span>£<%=product.price%></span>
-                    <div>
-                        <a class="view" href="/products/<%=product.id %>"></a>
-                        <div class="product-actions">
-                        <a class="view" href="/products/<%=product.id %>"></a>
+    <div class="products-grid">
+      <% products.forEach(product=>{%>
+      <div class="product-card">
+        <a href="/products/<%=product.id %>">
+          <img src="<%=product.image%>" alt="" width="150px" />
+          <h2><%=product.title%></h2>
+          <p title="<%=product.description%>"><%=product.description%></p>
+          <span>£<%=product.price%></span>
+          <div>
+            <a class="view" href="/products/<%=product.id %>"></a>
+            <div class="product-actions">
+              <a class="view" href="/products/<%=product.id %>"></a>
 
+              <button
+                class="basket-btn"
+                data-id="<%=product.id%>"
+                data-title="<%=encodeURIComponent(product.title)%>"
+                data-price="<%=product.price%>"
+                data-image="<%=encodeURIComponent(product.image)%>"
+                onclick="addToCart(this, event)"
+              >
+                <img src="/images/cart.svg" alt="" />
+              </button>
 
-                            <button class="basket-btn"
-                            data-id="<%=product.id%>"
-                            data-title="<%=encodeURIComponent(product.title)%>" 
-                            data-price="<%=product.price%>" 
-                            data-image="<%=encodeURIComponent(product.image)%>"
-                            onclick="addToCart(this,event)"
-                            >
-                                <img src="/images/cart.svg" alt="">
-                            </button>
-
-
-    
-                            <button 
-                            class="heart-btn" 
-                            id="fav-btn-<%=product.id%>"
-                            data-id="<%=product.id%>" 
-                            data-title="<%=encodeURIComponent(product.title)%>" 
-                            data-price="<%=product.price%>" 
-                            data-image="<%=encodeURIComponent(product.image)%>"
-                            onclick="toggleFav(this, event)"
-                            >
-                            <img class="heart" src="/images/heart.svg" alt="">
-                            <img class="heart-off" src="/images/heartOff.svg" alt="">
-                            </button>
-                        </div>
-                    </div>
-                </a></div>
-                <%})%>
-        </div>
-        <%}%>
-        <% if (totalPages > 1) {%>
-            <div class="paganation">
-                <%
-              const buildUrl = (p) => {
-                const params = new URLSearchParams();
-                if (search) params.set('search', search);
-                if (minPrice) params.set('minPrice', minPrice);
-                if (maxPrice) params.set('maxPrice', maxPrice);
-                params.set('page', p);
-                return '/products?' + params.toString();
-              };
-            %>
-            <%if (page > 1) {%>
-                <a href="<%=buildUrl(page-1)%>"><</a>
-                <%} else{%>
-                     <span class="disabled"><</span>
-                    <%}%>
-
-                    <% for (let i = 1; i<=totalPages; i++){%>
-                        <% if (i==page) {%>
-                            <span class="active"><%=i%></span>
-                            <%} else {%>
-                                <a href="<%=buildUrl(i) %>"><%=i%></a>
-                                <%}%>
-                        <%}%>
-
-
-                    <%if (page < totalPages) {%>
-                <a href="<%=buildUrl(page+1)%>">></a>
-                <%} else{%>
-                     <span class="disabled">></span>
-                    <%}%>
+              <button
+                class="heart-btn"
+                id="fav-btn-<%=product.id%>"
+                data-id="<%=product.id%>"
+                data-title="<%=encodeURIComponent(product.title)%>"
+                data-price="<%=product.price%>"
+                data-image="<%=encodeURIComponent(product.image)%>"
+                onclick="toggleFav(this, event)"
+              >
+                <img class="heart" src="/images/heart.svg" alt="" />
+                <img class="heart-off" src="/images/heartOff.svg" alt="" />
+              </button>
             </div>
-            <%}%>
+          </div>
+        </a>
+      </div>
+      <%})%>
+    </div>
+    <% } else { %>
+    <h3>no products found</h3>
+    <%}%>
+
+    <% if (totalPages > 1) {%>
+    <div class="paganation">
+      <% const buildUrl = (p) => { const params = new URLSearchParams(); if
+      (search) params.set('search', search); if (minPrice)
+      params.set('minPrice', minPrice); if (maxPrice) params.set('maxPrice',
+      maxPrice); params.set('page', p); return '/products?' + params.toString();
+      }; %> <%if (page > 1) {%>
+      <a href="<%=buildUrl(page-1)%>"><</a>
+      <%} else{%>
+      <span class="disabled"><</span>
+      <%}%>
+
+      <% for (let i = 1; i<=totalPages; i++){%>
+      <% if (i==page) {%>
+      <span class="active"><%=i%></span>
+      <%} else {%>
+      <a href="<%=buildUrl(i) %>"><%=i%></a>
+      <%}%>
+      <%}%>
+
+      <%if (page < totalPages) {%>
+      <a href="<%=buildUrl(page+1)%>">></a>
+      <%} else{%>
+      <span class="disabled">></span>
+      <%}%>
+    </div>
+    <%}%>
 
     <script src="/js/storage.js"></script>
     <script>
-        function toggleFav(btn, event){
-            if (event) {
-                event.stopPropagation();
-                event.preventDefault();
-            }
-            const product = {
-                id:parseInt(btn.dataset.id),
-                title:decodeURIComponent(btn.dataset.title),
-                price:parseFloat(btn.dataset.price),
-                image:decodeURIComponent(btn.dataset.image)
-            }
-            const added = Storage.toggleFav(product)
-            console.log(added)
-            if (added){
-                btn.classList.add("fav-active")
-            } else{
-                btn.classList.remove("fav-active")
-            }
+      function toggleFav(btn, event) {
+        if (event) {
+          event.stopPropagation();
+          event.preventDefault();
         }
-        function addToCart(btn,event){
-            if (event) {
-                event.stopPropagation();
-                event.preventDefault();
-            }
-            const product = {
-                id:parseInt(btn.dataset.id),
-                title:decodeURIComponent(btn.dataset.title),
-                price:parseFloat(btn.dataset.price),
-                image:decodeURIComponent(btn.dataset.image)
-            }
-            Storage.addToCart(product)
+        const product = {
+          id: parseInt(btn.dataset.id),
+          title: decodeURIComponent(btn.dataset.title),
+          price: parseFloat(btn.dataset.price),
+          image: decodeURIComponent(btn.dataset.image),
+        };
+        const added = Storage.toggleFav(product);
+        console.log(added);
+        if (added) {
+          btn.classList.add("fav-active");
+        } else {
+          btn.classList.remove("fav-active");
         }
-        document.addEventListener('DOMContentLoaded', () => {
-            const fav = Storage.getFav()
-            console.log(fav)
-            fav.forEach(element => {
-                const btn = document.getElementById("fav-btn-" + element.id)
-                if (btn) {
-                    btn.classList.add("fav-active")
-                }
-            });
+      }
+      function addToCart(btn, event) {
+        if (event) {
+          event.stopPropagation();
+          event.preventDefault();
+        }
+        const product = {
+          id: parseInt(btn.dataset.id),
+          title: decodeURIComponent(btn.dataset.title),
+          price: parseFloat(btn.dataset.price),
+          image: decodeURIComponent(btn.dataset.image),
+        };
+        Storage.addToCart(product);
+      }
+      document.addEventListener("DOMContentLoaded", () => {
+        const fav = Storage.getFav();
+        console.log(fav);
+        fav.forEach((element) => {
+          const btn = document.getElementById("fav-btn-" + element.id);
+          if (btn) {
+            btn.classList.add("fav-active");
+          }
         });
+      });
     </script>
-</body>
+  </body>
 </html>

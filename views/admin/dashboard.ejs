@@ -50,7 +50,6 @@
         box-sizing: border-box;
       }
 
-  
       .btn-edit {
         background-color: #4caf50;
       }
@@ -67,14 +66,14 @@
         background-color: #d32f2f;
       }
 
-      .admin-nav{
+      .admin-nav {
         text-align: center;
       }
     </style>
   </head>
   <body>
     <div class="admin-nav">
-      <a href="/home">Home</a>
+      <a href="/">Home</a>
       <a href="/admin/products/create">Add Product</a>
       <a href="/admin/orders">Orders</a>
     </div>
@@ -91,37 +90,51 @@
       </thead>
       <tbody>
         <% if (products && products.length) { %>
-          <% products.forEach(product => { %>
-            <tr>
-              <td><%= product.id %></td>
-              <td><%= product.title %></td>
-              <td><%= product.description %></td>
-              <td><%= product.price %></td>
-              <td>
-                <% if (product.image) { %>
-                  <img src="<%= product.image %>" alt="<%= product.title %>" width="60" />
-                <% } else { %>
-                  No image
-                <% } %>
-              </td>
-              <td>
-                <a href="/admin/products/<%= product.id %>/edit" class="btn-edit">Edit</a>
-                <form action="/admin/products/<%= product.id %>/delete" method="POST" style="display:inline;">
-                  <button
-                    type="submit"
-                    class="btn-delete"
-                    onclick="return confirm('Are you sure you want to delete this product?')"
-                  >
-                    Delete
-                  </button>
-                </form>
-              </td>
-            </tr>
-          <% }) %>
+        <% products.forEach(product => { %>
+        <tr>
+          <td><%= product.id %></td>
+          <td><%= product.title %></td>
+          <td><%= product.description %></td>
+          <td><%= product.price %></td>
+          <td>
+            <% if (product.image) { %>
+            <img
+              src="<%= product.image %>"
+              alt="<%= product.title %>"
+              width="60"
+            />
+            <% } else { %>
+            No image
+            <% } %>
+          </td>
+          <td>
+            <a href="/admin/products/<%= product.id %>/edit" class="btn-edit"
+              >Edit</a
+            >
+            <form
+              action="/admin/products/<%= product.id %>/delete"
+              method="POST"
+              style="display: inline"
+            >
+              <button
+                type="submit"
+                class="btn-delete"
+                onclick="
+                  return confirm(
+                    'Are you sure you want to delete this product?',
+                  );
+                "
+              >
+                Delete
+              </button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
         <% } else { %>
-          <tr>
-            <td colspan="6">No products found</td>
-          </tr>
+        <tr>
+          <td colspan="6">No products found</td>
+        </tr>
         <% } %>
       </tbody>
     </table>

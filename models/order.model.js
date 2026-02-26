@@ -53,7 +53,7 @@ export const getById = (id) => {
         (err, rows) => {
           if (err) return reject(err);
           row.items = rows;
-          resolve(rows);
+          resolve(row);
         },
       );
     });

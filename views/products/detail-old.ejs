@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%=product.title%></title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #ebf8ed;
+      color: #333;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      border-bottom: 2px solid #000;
+    }
+
+    .header h3 {
+      margin: 0;
+      margin-left: 100px;
+    }
+
+    .header h3 a {
+      color: #333;
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .navigation {
+      display: flex;
+      gap: 20px;
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .navigation a {
+      text-decoration: none;
+      color: #000;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .navigation a:hover {
+      color: #3350e9;
+    }
+
+    .header-icons {
+      display: flex;
+      gap: 10px;
+      margin-right: 100px;
+    }
+
+    .header-icons button {
+      background: none;
+      cursor: pointer;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .header-icons button:hover {
+      background-color: #f0f0f0;
+    }
+
+    .header-icons img {
+      width: 24px;
+      height: 24px;
+    }
+
+    .dashboard {
+      font-weight: bold;
+      background-color: #000 !important;
+      color: white !important;
+      padding: 10px 20px !important;
+      border-radius: 30px;
+      text-decoration: none;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+    }
+
+    .dashboard:hover {
+      background-color: #333 !important;
+    }
+
+    .product-detail-container {
+      max-width: 1000px;
+      margin: 60px auto;
+      padding: 40px;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 40px;
+    }
+
+    .product-image {
+      width: 100%;
+      max-width: 250px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-image:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      padding: 20px;
+    }
+
+    .modal.open {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      max-width: 90%;
+      max-height: 90vh;
+      object-fit: contain;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 40px;
+      color: #fff;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .close-modal:hover {
+      color: #ccc;
+    }
+
+    .product-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-title {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #000;
+    }
+
+    .product-price {
+      font-size: 28px;
+      font-weight: bold;
+      color: #3350e9;
+      margin-bottom: 30px;
+      display: block;
+    }
+
+    .product-actions {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .product-characteristics {
+      margin-bottom: 30px;
+      margin-top: 30px;
+    }
+
+    .product-characteristics ul {
+      list-style-position: inside;
+      margin: 0;
+      padding: 0;
+      font-size: 14px;
+      line-height: 2;
+      color: #666;
+    }
+
+    .product-characteristics li {
+      margin-bottom: 8px;
+    }
+
+    .product-description {
+      font-size: 15px;
+      line-height: 1.8;
+      color: #555;
+    }
+
+    .product-description::before {
+      content: "Description: ";
+      font-weight: bold;
+      color: #333;
+    }
+
+    .basket-btn,
+    .heart-btn {
+      flex: 1;
+      min-width: 120px;
+      padding: 14px 20px;
+      border: 2px solid #3350e9;
+      background-color: #fff;
+      color: #3350e9;
+      font-weight: bold;
+      font-size: 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .basket-btn:hover {
+      background-color: #3350e9;
+      color: #fff;
+    }
+
+    .heart-btn {
+      border-color: #e53935;
+      color: #e53935;
+    }
+
+    .heart-btn:hover {
+      background-color: #e53935;
+      color: #fff;
+    }
+
+    .heart-btn img {
+      width: 20px;
+      height: 20px;
+    }
+
+    .basket-btn img {
+      width: 20px;
+      height: 20px;
+    }
+
+    .heart-off {
+      display: none;
+    }
+
+    .fav-active .heart {
+      display: none;
+    }
+
+    .fav-active .heart-off {
+      display: inline;
+    }
+
+    .fav-active {
+      background-color: #e53935 !important;
+      color: #fff !important;
+    }
+  </style>
+  <body>
+    <div class="header">
+      <h3><a href="/">WatchWorld</a></h3>
+
+      <div class="navigation">
+        <a href="/">Home</a>
+        <a href="/#about">About Us</a>
+        <a href="/products">Catalog</a>
+        <a href="/#reviews">Reviews</a>
+        <a href="/#contact">Contact Us</a>
+        <% if (user && user.role === "superadmin") { %>
+        <a class="dashboard" href="/admin">Dashboard</a>
+        <% } %>
+      </div>
+
+      <div class="header-icons">
+        <a href="/basket">
+          <button><img src="/images/cart.svg" /></button>
+        </a>
+        <a href="/favourite">
+          <button><img src="/images/heart.svg" /></button>
+        </a>
+      </div>
+    </div>
+
+    <% const formatCharacteristics = (str) => { return str.split(",").map((item)
+    => { const [key, ...rest] = item.split(":"); return `
+    <li><strong>${key.trim()}:</strong> ${rest.join(":").trim()}</li>
+    `; }).join(""); }; %>
+
+    <div class="product-detail-container">
+      <img
+        class="product-image"
+        src="<%=product.image%>"
+        alt="<%=product.title%>"
+        onclick="openModal(this.src)"
+      />
+
+      <div class="product-info">
+        <h2 class="product-title"><%=product.title%></h2>
+        <span class="product-price">£<%=product.price%></span>
+
+        <div class="product-actions">
+          <button
+            class="basket-btn"
+            data-id="<%=product.id%>"
+            data-title="<%=encodeURIComponent(product.title)%>"
+            data-price="<%=product.price%>"
+            data-image="<%=encodeURIComponent(product.image)%>"
+            onclick="addToCart(this, event)"
+          >
+            <img src="/images/cart.svg" alt="" />
+          </button>
+
+          <button
+            class="heart-btn"
+            id="fav-btn-<%=product.id%>"
+            data-id="<%=product.id%>"
+            data-title="<%=encodeURIComponent(product.title)%>"
+            data-price="<%=product.price%>"
+            data-image="<%=encodeURIComponent(product.image)%>"
+            onclick="toggleFav(this, event)"
+          >
+            <img class="heart" src="/images/heart.svg" alt="" />
+            <img class="heart-off" src="/images/heartOff.svg" alt="" />
+          </button>
+        </div>
+
+        <div class="product-characteristics">
+          <ul>
+            <%-formatCharacteristics(product.characteristics) %>
+          </ul>
+        </div>
+
+        <p class="product-description"><%=product.description%></p>
+      </div>
+    </div>
+
+    <div id="imageModal" class="modal" onclick="closeModal(event)">
+      <span class="close-modal" onclick="closeModal()">&times;</span>
+      <img class="modal-content" id="modalImage" src="" alt="" />
+    </div>
+    <script src="/js/storage.js"></script>
+    <script>
+      function openModal(src) {
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImage");
+        modalImg.src = src;
+        modal.classList.add("open");
+      }
+
+      function closeModal(event) {
+        const modal = document.getElementById("imageModal");
+        if (event && event.target !== modal) return;
+        modal.classList.remove("open");
+      }
+
+      function toggleFav(btn, event) {
+        if (event) {
+          event.stopPropagation();
+          event.preventDefault();
+        }
+        const product = {
+          id: parseInt(btn.dataset.id),
+          title: decodeURIComponent(btn.dataset.title),
+          price: parseFloat(btn.dataset.price),
+          image: decodeURIComponent(btn.dataset.image),
+        };
+        const added = Storage.toggleFav(product);
+        console.log(added);
+        if (added) {
+          btn.classList.add("fav-active");
+        } else {
+          btn.classList.remove("fav-active");
+        }
+      }
+      function addToCart(btn, event) {
+        if (event) {
+          event.stopPropagation();
+          event.preventDefault();
+        }
+        const product = {
+          id: parseInt(btn.dataset.id),
+          title: decodeURIComponent(btn.dataset.title),
+          price: parseFloat(btn.dataset.price),
+          image: decodeURIComponent(btn.dataset.image),
+        };
+        Storage.addToCart(product);
+      }
+      document.addEventListener("DOMContentLoaded", () => {
+        const fav = Storage.getFav();
+        console.log(fav);
+        fav.forEach((element) => {
+          const btn = document.getElementById("fav-btn-" + element.id);
+          if (btn) {
+            btn.classList.add("fav-active");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
