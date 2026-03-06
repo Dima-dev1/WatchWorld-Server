@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Checkout</title>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -13,7 +14,6 @@
         color: #222;
       }
 
-      /* HEADER - same as catalog */
       .header {
         display: flex;
         align-items: center;
@@ -80,7 +80,6 @@
         background-color: #333;
       }
 
-      /* MAIN CONTAINER */
       .main-container {
         max-width: 900px;
         margin: 40px auto;
@@ -95,7 +94,6 @@
         margin-bottom: 30px;
       }
 
-      /* ORDER SUMMARY */
       #checkout-content h2 {
         font-size: 24px;
         margin-bottom: 16px;
@@ -132,7 +130,6 @@
         margin-top: 12px;
       }
 
-      /* CHECKOUT FORM */
       .checkout-form {
         display: flex;
         flex-direction: column;
@@ -171,22 +168,10 @@
         transform: translateY(-2px);
       }
 
-      /* ERROR MESSAGE */
       p {
         color: red;
         text-align: center;
         font-weight: bold;
-      }
-
-      /* RESPONSIVE */
-      @media (max-width: 600px) {
-        .summary-item-info {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-        .summary-item img {
-          margin-bottom: 8px;
-        }
       }
     </style>
   </head>

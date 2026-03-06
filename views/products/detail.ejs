@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%=product.title%></title>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -32,7 +33,7 @@
         object-fit: contain;
         border-radius: 12px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        cursor: pointer; /* make it clear it's clickable */
+        cursor: pointer;
         transition: transform 0.2s ease;
       }
 
@@ -120,7 +121,6 @@
 
       .heart-off { display: none; }
 
-      /* Modal Lightbox for image */
       .modal {
         display: none;
         position: fixed;

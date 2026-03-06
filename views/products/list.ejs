@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Catalog</title>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -242,8 +243,6 @@
         color: #000;
       }
 
-      /* PRODUCT ACTION BUTTONS */
-
       .product-actions {
         display: flex;
         justify-content: center;
@@ -251,11 +250,10 @@
         margin-top: 14px;
       }
 
-      /* Base button (square, shadow) */
       .product-actions button {
         width: 42px;
         height: 42px;
-        border-radius: 8px; /* square with soft edges */
+        border-radius: 8px;
         border: none;
         background-color: #e0e0e0;
         display: flex;
@@ -266,25 +264,18 @@
         transition: background-color 0.2s ease;
       }
 
-      /* Icon size */
       .product-actions button img {
         width: 20px;
         height: 20px;
         pointer-events: none;
       }
 
-      /* Hover (subtle) */
       .product-actions button:hover {
         background-color: #d5d5d5;
       }
 
-      /* ========================= */
-      /* ACTIVE STATES (CSS ONLY) */
-      /* ========================= */
-
-      /* Heart active (your existing fav-active class) */
       .product-actions .heart-btn.fav-active {
-        background-color: #e53935; /* red */
+        background-color: #e53935;
       }
 
       .product-actions .heart-btn.fav-active .heart {
@@ -295,9 +286,8 @@
         display: inline;
       }
 
-      /* Optional: cart button when "active" using in-basket class */
       .product-actions .basket-btn.in-basket {
-        background-color: #3350e9; /* blue */
+        background-color: #3350e9;
       }
 
       .product-actions .basket-btn.in-basket img {
