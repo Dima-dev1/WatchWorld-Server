@@ -48,6 +48,7 @@
 
     .header-icons {
       display: flex;
+      align-items: center;
       gap: 10px;
       margin-right: 100px;
     }
@@ -98,14 +99,13 @@
       margin-bottom: 30px;
     }
 
-    /* GRID */
     .products-grid {
       display: flex;
       flex-wrap: wrap;
       gap: 32px;
       justify-content: center;
     }
-    /* CART ITEM CARD */
+
     .cart-item {
       background: #fff;
       width: 260px;
@@ -160,6 +160,56 @@
       text-align: center;
       margin-top: 40px;
       font-weight: bold;
+      background: #f5f7ff;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(51, 80, 233, 0.08);
+      padding: 32px 0 24px 0;
+      font-size: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+    .cart-items {
+      font-size: 18px;
+      color: #222;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .cart-sum {
+      font-size: 20px;
+      color: #1565c0;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+    .cart-clear-btn {
+      background: #ff4444;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 24px;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .cart-clear-btn:hover {
+      background: #cc0000;
+    }
+    .cart-checkout-btn {
+      display: inline-block;
+      background: #3350e9;
+      color: white;
+      padding: 12px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 18px;
+      transition: background 0.2s;
+    }
+    .cart-checkout-btn:hover {
+      background: #4e67e5;
     }
   </style>
 
@@ -185,6 +235,18 @@
         <a href="/favourite">
           <button><img src="/images/heart.svg" /></button>
         </a>
+        <% if (user) { %>
+        <span
+          >Hello,
+          <%= user.email %></span
+        >
+        <form action="/logout" method="GET">
+          <button type="submit">logout</button>
+        </form>
+        <% } else { %>
+        <a href="/login">Login</a>
+        <a href="/registration">registration</a>
+        <% } %>
       </div>
     </div>
 
@@ -247,10 +309,10 @@
 
         html += `
           <div class="cart-total">
-            <div>Items (${cart.reduce((t, i) => t + i.quantity, 0)})</div>
-            <div>Total = £${total}</div>
-            <button onclick="clearCart()">clear</button>
-            <a href="/checkout">Checkout</a>
+            <div class="cart-items">Items (${cart.reduce((t, i) => t + i.quantity, 0)})</div>
+            <div class="cart-sum">Total = £${total}</div>
+            <button class="cart-clear-btn" onclick="clearCart()">clear</button>
+            <a class="cart-checkout-btn" href="/checkout">Checkout</a>
           </div>
         `;
 

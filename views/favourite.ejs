@@ -227,6 +227,18 @@
             <img src="/images/heart.svg" alt="" />
           </button>
         </a>
+        <% if (user) { %>
+        <span
+          >Hello,
+          <%= user.email %></span
+        >
+        <form action="/logout" method="GET">
+          <button type="submit">logout</button>
+        </form>
+        <% } else { %>
+        <a href="/login">Login</a>
+        <a href="/registration">registration</a>
+        <% } %>
       </div>
     </div>
 
