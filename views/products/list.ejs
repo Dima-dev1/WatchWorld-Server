@@ -178,6 +178,131 @@
       .dashboard:hover {
         background-color: #333;
       }
+
+      .filters-wrapper {
+        display: flex;
+        justify-content: center;
+        margin: 40px 0 10px 0;
+      }
+
+      .filters-form {
+        background: white;
+        padding: 20px 30px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        align-items: center;
+      }
+
+      .filters-form input {
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        font-size: 14px;
+        min-width: 150px;
+        outline: none;
+        transition:
+          border 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .filters-form input:focus {
+        border-color: #3350e9;
+        box-shadow: 0 0 0 2px rgba(51, 80, 233, 0.15);
+      }
+
+      .filters-form button {
+        padding: 10px 20px;
+        background-color: #3350e9;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        transition:
+          background-color 0.2s ease,
+          transform 0.2s ease;
+      }
+
+      .filters-form button:hover {
+        background-color: #4e67e5;
+        transform: translateY(-1px);
+      }
+
+      .filters-form a {
+        text-decoration: none;
+        color: #999;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .filters-form a:hover {
+        color: #000;
+      }
+
+      /* PRODUCT ACTION BUTTONS */
+
+      .product-actions {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      /* Base button (square, shadow) */
+      .product-actions button {
+        width: 42px;
+        height: 42px;
+        border-radius: 8px; /* square with soft edges */
+        border: none;
+        background-color: #e0e0e0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+        transition: background-color 0.2s ease;
+      }
+
+      /* Icon size */
+      .product-actions button img {
+        width: 20px;
+        height: 20px;
+        pointer-events: none;
+      }
+
+      /* Hover (subtle) */
+      .product-actions button:hover {
+        background-color: #d5d5d5;
+      }
+
+      /* ========================= */
+      /* ACTIVE STATES (CSS ONLY) */
+      /* ========================= */
+
+      /* Heart active (your existing fav-active class) */
+      .product-actions .heart-btn.fav-active {
+        background-color: #e53935; /* red */
+      }
+
+      .product-actions .heart-btn.fav-active .heart {
+        display: none;
+      }
+
+      .product-actions .heart-btn.fav-active .heart-off {
+        display: inline;
+      }
+
+      /* Optional: cart button when "active" using in-basket class */
+      .product-actions .basket-btn.in-basket {
+        background-color: #3350e9; /* blue */
+      }
+
+      .product-actions .basket-btn.in-basket img {
+        filter: brightness(0) invert(1);
+      }
     </style>
   </head>
   <body>
@@ -204,11 +329,24 @@
             <img src="/images/heart.svg" alt="" />
           </button>
         </a>
+
+        <% if (user) { %>
+        <span
+          >Hello,
+          <%= user.email %></span
+        >
+        <form action="/logout" method="GET">
+          <button type="submit">logout</button>
+        </form>
+        <% } else { %>
+        <a href="/login">Login</a>
+        <a href="/registration">registration</a>
+        <% } %>
       </div>
     </div>
 
-    <div>
-      <form action="/products" method="GET">
+    <div class="filters-wrapper">
+      <form class="filters-form" action="/products" method="GET">
         <input
           type="text"
           name="search"
@@ -325,7 +463,6 @@
           image: decodeURIComponent(btn.dataset.image),
         };
         const added = Storage.toggleFav(product);
-        console.log(added);
         if (added) {
           btn.classList.add("fav-active");
         } else {
@@ -343,15 +480,34 @@
           price: parseFloat(btn.dataset.price),
           image: decodeURIComponent(btn.dataset.image),
         };
-        Storage.addToCart(product);
+        // Toggle basket state
+        const basket = Storage.getCart ? Storage.getCart() : [];
+        const inBasket = basket.some((item) => item.id === product.id);
+        if (inBasket) {
+          Storage.removeFromCart(product.id);
+          btn.classList.remove("in-basket");
+        } else {
+          Storage.addToCart(product);
+          btn.classList.add("in-basket");
+        }
       }
       document.addEventListener("DOMContentLoaded", () => {
         const fav = Storage.getFav();
-        console.log(fav);
         fav.forEach((element) => {
           const btn = document.getElementById("fav-btn-" + element.id);
           if (btn) {
             btn.classList.add("fav-active");
+          }
+        });
+
+        // Highlight basket buttons for items already in basket
+        const basket = Storage.getCart ? Storage.getCart() : [];
+        basket.forEach((item) => {
+          const btn = document.querySelector(
+            `.basket-btn[data-id="${item.id}"]`,
+          );
+          if (btn) {
+            btn.classList.add("in-basket");
           }
         });
       });

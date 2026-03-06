@@ -41,13 +41,6 @@
         justify-content: center;
       }
 
-      .success-icon::after {
-        content: "✓";
-        color: #fff;
-        font-size: 40px;
-        font-weight: bold;
-      }
-
       h1 {
         font-size: 28px;
         font-weight: bold;
@@ -129,7 +122,22 @@
   </head>
   <body>
     <div class="success-container">
-      <div class="success-icon"></div>
+      <div class="success-icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="40"
+          height="40"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#fff"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          style="display: block; margin: auto"
+        >
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+      </div>
       <h1>Order Successful!</h1>
       <p class="order-message">
         Thank you for your purchase! Your order has been successfully placed.

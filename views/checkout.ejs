@@ -4,61 +4,257 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Checkout</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #ebf8ed;
+        color: #222;
+      }
+
+      /* HEADER - same as catalog */
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 40px;
+        border-bottom: 2px solid #000;
+      }
+      .header h3 {
+        margin: 0;
+        margin-left: 100px;
+      }
+      .header h3 a {
+        margin: 0;
+        color: #333;
+        text-decoration: none;
+      }
+      .navigation {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex: 1;
+        justify-content: center;
+      }
+      .navigation a {
+        text-decoration: none;
+        color: #000;
+        font-weight: bold;
+      }
+      .header-icons {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-right: 100px;
+      }
+      .header-icons button {
+        background: none;
+        cursor: pointer;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 30%;
+      }
+      .header-icons button:hover {
+        transform: scale(1.1);
+      }
+      .header-icons button img {
+        width: 24px;
+        height: 24px;
+      }
+      .dashboard {
+        font-weight: bold;
+        background-color: #000;
+        color: white !important;
+        padding: 10px 20px;
+        border-radius: 30px;
+        text-decoration: none;
+        display: inline-block;
+        transition:
+          background-color 0.3s ease,
+          transform 0.3s ease;
+      }
+      .dashboard:hover {
+        background-color: #333;
+      }
+
+      /* MAIN CONTAINER */
+      .main-container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      }
+      .page-title {
+        text-align: center;
+        font-size: 32px;
+        margin-bottom: 30px;
+      }
+
+      /* ORDER SUMMARY */
+      #checkout-content h2 {
+        font-size: 24px;
+        margin-bottom: 16px;
+      }
+      .summary-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #f9f9f9;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+      }
+      .summary-item img {
+        width: 60px;
+        height: 60px;
+        object-fit: contain;
+        border-radius: 8px;
+        margin-right: 12px;
+      }
+      .summary-item-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .summary-item-info div {
+        display: flex;
+        flex-direction: column;
+      }
+      #checkout-content > div > div:last-child {
+        text-align: right;
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 12px;
+      }
+
+      /* CHECKOUT FORM */
+      .checkout-form {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-top: 30px;
+      }
+      .checkout-form input {
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+        outline: none;
+        transition:
+          border 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .checkout-form input:focus {
+        border-color: #3350e9;
+        box-shadow: 0 0 0 2px rgba(51, 80, 233, 0.15);
+      }
+      .checkout-form button {
+        padding: 14px;
+        border-radius: 8px;
+        background-color: #3350e9;
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        transition:
+          background-color 0.2s ease,
+          transform 0.2s ease;
+      }
+      .checkout-form button:hover {
+        background-color: #4e67e5;
+        transform: translateY(-2px);
+      }
+
+      /* ERROR MESSAGE */
+      p {
+        color: red;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 600px) {
+        .summary-item-info {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .summary-item img {
+          margin-bottom: 8px;
+        }
+      }
+    </style>
   </head>
+
   <body>
     <div class="header">
       <h3><a href="/">WatchWorld</a></h3>
-
       <div class="navigation">
         <a href="/">Home</a>
         <a href="/#about">About Us</a>
-        <a href="/products">Catalog</a>
+        <a class="Catalog" href="/products">Catalog</a>
         <a href="/#reviews">Reviews</a>
         <a href="/#contact">Contact Us</a>
         <% if (user && user.role === "superadmin") { %>
-          <a class="dashboard" href="/admin">Dashboard</a>
+        <a class="dashboard" href="/admin">Dashboard</a>
         <% } %>
       </div>
-
       <div class="header-icons">
         <a href="/basket">
-          <button><img src="/images/cart.svg" /></button>
+          <button class="basket-btn"><img src="/images/cart.svg" /></button>
         </a>
         <a href="/favourite">
-          <button><img src="/images/heart.svg" /></button>
+          <button class="heart-btn"><img src="/images/heart.svg" /></button>
         </a>
+        <% if (user) { %>
+        <span
+          >Hello,
+          <%= user.email %></span
+        >
+        <form action="/logout" method="GET">
+          <button type="submit">logout</button>
+        </form>
+        <% } else { %>
+        <a href="/login">Login</a>
+        <a href="/registration">Registration</a>
+        <% } %>
       </div>
     </div>
 
     <div class="main-container">
       <h1 class="page-title">Checkout</h1>
+
       <% if (typeof error !== 'undefined' && error) { %>
-        <p><%= error %></p>
-        <% } %>
+      <p><%= error %></p>
+      <% } %>
 
-      <div id="checkout-content">
-
+      <div id="checkout-content"></div>
     </div>
 
     <script src="/js/storage.js"></script>
     <script>
-        function renderCheckout() {
+      function renderCheckout() {
         const cart = Storage.getCart();
         const grid = document.getElementById("checkout-content");
 
-        if (!cart.length){
-            grid.innerHTML = `your cart is empty`
-            return
+        if (!cart.length) {
+          grid.innerHTML = `Your cart is empty`;
+          return;
         }
 
-        let total = 0
-        let summaryItems = ""
+        let total = 0;
+        let summaryItems = "";
 
-        cart.forEach(item => {
-            let itemTotal = item.quantity * item.price
-            total += itemTotal;
+        cart.forEach((item) => {
+          let itemTotal = item.quantity * item.price;
+          total += itemTotal;
 
-            summaryItems += `<div class="summary-item">
+          summaryItems += `<div class="summary-item">
               <div class="summary-item-info">
                 <img src="${item.image}" alt="">
                 <div>
@@ -67,36 +263,34 @@
                 </div>
               </div>
               <div>£${itemTotal.toFixed(2)}</div>
-            </div>`
+            </div>`;
         });
 
         grid.innerHTML = `
         <div>
-            <h2>order summary</h2>
+            <h2>Order Summary</h2>
             ${summaryItems}
-            <div>total:£${total.toFixed(2)} </div>
-            </div>
+            <div>Total: £${total.toFixed(2)}</div>
+        </div>
 
+        <form method="POST" action="/orders" class="checkout-form" id="checkout-form">
+          <input type="text" id="first_name" name="first_name" required placeholder="First Name">
+          <input type="text" id="last_name" name="last_name" required placeholder="Last Name">
+          <input type="email" id="email" name="email" required placeholder="Email">
+          <input type="tel" id="phone" name="phone" required placeholder="Phone">
+          <input type="text" id="address" name="address" required placeholder="Address">
 
-            <form method="POST" action="/orders" class="checkout-form" id="checkout-form">
-              <input type="text" id="first_name" name="first_name" required>
-              <input type="text" id="last_name" name="last_name" required>
-              <input type="email" id="email" name="email" required>
-              <input type="tel" id="phone" name="phone" required>
-              <input type="text" id="address" name="address" required>
+          <input type="hidden" id="cart" name="cart" value="">
+          <input type="hidden" id="total" name="total" value="${total.toFixed(2)}">
 
-              <input type="hidden" id="cart" name="cart" value="">
-              <input type="hidden" id="total" name="total" value="${total.toFixed(2)}">
+          <button type="submit">Submit Order</button>
+        </form>
+        `;
 
-              <button type="submit">Submit</button>
-              </form>
-        `
+        document.getElementById("cart").value = JSON.stringify(cart);
+      }
 
-        document.getElementById("cart").value=JSON.stringify(cart)
-        }
-
-
-        document.addEventListener("DOMContentLoaded", renderCheckout);
+      document.addEventListener("DOMContentLoaded", renderCheckout);
     </script>
   </body>
 </html>

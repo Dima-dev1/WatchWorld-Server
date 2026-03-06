@@ -4,118 +4,266 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%=product.title%></title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #ebf8ed;
+        color: #222;
+      }
+
+      .product-detail-container {
+        max-width: 900px;
+        margin: 60px auto;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        padding: 40px;
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .product-image {
+        max-width: 300px;
+        width: 100%;
+        object-fit: contain;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        cursor: pointer; /* make it clear it's clickable */
+        transition: transform 0.2s ease;
+      }
+
+      .product-info {
+        flex: 1;
+        min-width: 250px;
+      }
+
+      .product-title {
+        font-size: 28px;
+        margin: 0 0 16px 0;
+      }
+
+      .product-price {
+        font-size: 24px;
+        font-weight: bold;
+        color: #1976d2;
+        margin-bottom: 20px;
+        display: block;
+      }
+
+      .product-actions {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 30px;
+      }
+
+      .product-actions button {
+        border: none;
+        cursor: pointer;
+        width: 50px;
+        height: 50px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        transition: transform 0.2s, background-color 0.3s;
+      }
+
+      .product-actions button img {
+        width: 24px;
+        height: 24px;
+      }
+
+      .heart-btn.fav-active {
+        background-color: #ff4444;
+      }
+      .heart-btn.fav-active .heart { display: none; }
+      .heart-btn.fav-active .heart-off { display: inline; }
+
+      .basket-btn.in-basket {
+        background-color: #3350e9;
+      }
+      .basket-btn.in-basket img {
+        filter: brightness(0) invert(1);
+      }
+
+      .product-characteristics {
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 20px;
+      }
+
+      .product-description {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #555;
+      }
+
+      .back-btn {
+        display: inline-block;
+        margin-bottom: 20px;
+        padding: 10px 20px;
+        border-radius: 8px;
+        background-color: #ccc;
+        color: #000;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.2s ease;
+      }
+      .back-btn:hover {
+        background-color: #999;
+      }
+
+      .heart-off { display: none; }
+
+      /* Modal Lightbox for image */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0,0,0,0.8);
+        justify-content: center;
+        align-items: center;
+      }
+      .modal img {
+        max-width: 90%;
+        max-height: 90%;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      }
+      .modal.show { display: flex; }
+    </style>
   </head>
-  <style>
-    body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    }
-    
-    .heart-off {
-        display: none;
-    }
-    .fav-active .heart {
-        display: none;
-    }
-    .fav-active .heart-off {
-        display: inline;
-    }
-</style>
   <body>
+    <% 
+      const formatCharacteristics = (str) => {
+        return str.split(",").map((item) => {
+          const [key, ...rest] = item.split(":");
+          return `<strong>${key.trim()}:</strong> ${rest.join(":").trim()}`;
+        }).join("<br />");
+      };
+    %>
 
-    <%
-    const formatCharacteristics= (str) =>{
-        return str.split(",").map( (item) => {
-            const [key,...rest] = item.split(":")
-            return `<strong>${key.trim()}:</strong> ${rest.join(":").trim()}`
-        })
-        .join("<br>")
-    }
-     %>
+    <div class="product-detail-container">
+      <img
+        class="product-image"
+        src="<%=product.image%>"
+        alt="<%=product.title%>"
+        onclick="openModal(this.src)" 
+      />
 
-     <div class="product-detail-container">
-    <img class="product-image" src="<%=product.image%>" alt="" width="150px" />
-    <h2 class="product-title"><%=product.title%></h2>
+      <div class="product-info">
+        <a href="javascript:history.back()" class="back-btn">← Back</a>
+        <h2 class="product-title"><%=product.title%></h2>
+        <span class="product-price">£<%=product.price%></span>
 
-    <span class="product-price">£<%=product.price%></span>
+        <div class="product-actions">
+          <button
+            class="basket-btn"
+            data-id="<%=product.id%>"
+            data-title="<%=encodeURIComponent(product.title)%>"
+            data-price="<%=product.price%>"
+            data-image="<%=encodeURIComponent(product.image)%>"
+            onclick="toggleCart(this,event)"
+          >
+            <img src="/images/cart.svg" alt="Add to cart" />
+          </button>
 
-    <div class="product-actions">
-      <a class="view" href="/products/<%=product.id %>"></a>
-      <button class="basket-btn"
-                            data-id="<%=product.id%>"
-                            data-title="<%=encodeURIComponent(product.title)%>" 
-                            data-price="<%=product.price%>" 
-                            data-image="<%=encodeURIComponent(product.image)%>"
-                            onclick="addToCart(this,event)"
-                            >
-                                <img src="/images/cart.svg" alt="">
-                            </button>
+          <button
+            class="heart-btn"
+            id="fav-btn-<%=product.id%>"
+            data-id="<%=product.id%>"
+            data-title="<%=encodeURIComponent(product.title)%>"
+            data-price="<%=product.price%>"
+            data-image="<%=encodeURIComponent(product.image)%>"
+            onclick="toggleFav(this,event)"
+          >
+            <img class="heart" src="/images/heart.svg" alt="Favorite" />
+            <img class="heart-off" src="/images/heartOff.svg" alt="Unfavorite" />
+          </button>
+        </div>
 
+        <p class="product-characteristics" title="<%=product.characteristics%>">
+          <%- formatCharacteristics(product.characteristics) %>
+        </p>
 
-
-                            <button 
-                            class="heart-btn" 
-                            id="fav-btn-<%=product.id%>"
-                            data-id="<%=product.id%>" 
-                            data-title="<%=encodeURIComponent(product.title)%>" 
-                            data-price="<%=product.price%>" 
-                            data-image="<%=encodeURIComponent(product.image)%>"
-                            onclick="toggleFav(this, event)"
-                            >
-                            <img class="heart" src="/images/heart.svg" alt="">
-                            <img class="heart-off" src="/images/heartOff.svg" alt="">
-                            </button>
+        <p class="product-description" title="<%=product.description%>">
+          <%=product.description%>
+        </p>
+      </div>
     </div>
 
-    <p class="product-characteristics" title="<%=product.characteristics%>"><%-formatCharacteristics(product.characteristics) %></p>
-    <p class="product-description" title="<%=product.description%>"><%=product.description%></p>
-
+    <!-- Modal for image -->
+    <div id="imageModal" class="modal" onclick="closeModal()">
+      <img id="modalImage" src="" alt="Product Image" />
     </div>
+
     <script src="/js/storage.js"></script>
     <script>
-        function toggleFav(btn, event){
-            if (event) {
-                event.stopPropagation();
-                event.preventDefault();
-            }
-            const product = {
-                id:parseInt(btn.dataset.id),
-                title:decodeURIComponent(btn.dataset.title),
-                price:parseFloat(btn.dataset.price),
-                image:decodeURIComponent(btn.dataset.image)
-            }
-            const added = Storage.toggleFav(product)
-            console.log(added)
-            if (added){
-                btn.classList.add("fav-active")
-            } else{
-                btn.classList.remove("fav-active")
-            }
+      function toggleFav(btn, event) {
+        if(event){ event.stopPropagation(); event.preventDefault(); }
+        const product = {
+          id: parseInt(btn.dataset.id),
+          title: decodeURIComponent(btn.dataset.title),
+          price: parseFloat(btn.dataset.price),
+          image: decodeURIComponent(btn.dataset.image)
+        };
+        const added = Storage.toggleFav(product);
+        if(added){ btn.classList.add('fav-active'); }
+        else { btn.classList.remove('fav-active'); }
+      }
+
+      function toggleCart(btn,event){
+        if(event){ event.stopPropagation(); event.preventDefault(); }
+        const product = {
+          id: parseInt(btn.dataset.id),
+          title: decodeURIComponent(btn.dataset.title),
+          price: parseFloat(btn.dataset.price),
+          image: decodeURIComponent(btn.dataset.image)
+        };
+        const cart = Storage.getCart ? Storage.getCart() : [];
+        const inCart = cart.some(item => item.id === product.id);
+        if(inCart){
+          Storage.removeFromCart(product.id);
+          btn.classList.remove('in-basket');
+        } else{
+          Storage.addToCart(product);
+          btn.classList.add('in-basket');
         }
-        function addToCart(btn,event){
-            if (event) {
-                event.stopPropagation();
-                event.preventDefault();
-            }
-            const product = {
-                id:parseInt(btn.dataset.id),
-                title:decodeURIComponent(btn.dataset.title),
-                price:parseFloat(btn.dataset.price),
-                image:decodeURIComponent(btn.dataset.image)
-            }
-            Storage.addToCart(product)
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            const fav = Storage.getFav()
-            console.log(fav)
-            fav.forEach(element => {
-                const btn = document.getElementById("fav-btn-" + element.id)
-                if (btn) {
-                    btn.classList.add("fav-active")
-                }
-            });
+      }
+
+      // Modal functions
+      function openModal(src){
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImage");
+        modalImg.src = src;
+        modal.classList.add("show");
+      }
+      function closeModal(){
+        document.getElementById("imageModal").classList.remove("show");
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const fav = Storage.getFav();
+        fav.forEach(el => {
+          const btn = document.getElementById("fav-btn-" + el.id);
+          if(btn) btn.classList.add('fav-active');
         });
+
+        const cart = Storage.getCart ? Storage.getCart() : [];
+        cart.forEach(item => {
+          const btn = document.querySelector(`.basket-btn[data-id="${item.id}"]`);
+          if(btn) btn.classList.add('in-basket');
+        });
+      });
     </script>
   </body>
 </html>
