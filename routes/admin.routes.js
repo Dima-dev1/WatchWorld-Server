@@ -6,10 +6,8 @@ import { isSuperAdmin } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-// Only accessible by super admins
 router.use(isSuperAdmin);
 
-// Dashboard - list all products
 router.get("/admin", async (req, res) => {
   try {
     const products = await Product.getAll();
@@ -23,12 +21,10 @@ router.get("/admin", async (req, res) => {
   }
 });
 
-// Create product form
 router.get("/admin/products/create", async (req, res) => {
   res.render("admin/product-form", { product: null, error: null });
 });
 
-// Edit product form
 router.get("/admin/products/:id/edit", async (req, res) => {
   try {
     const product = await Product.getById(req.params.id);
@@ -41,7 +37,6 @@ router.get("/admin/products/:id/edit", async (req, res) => {
   }
 });
 
-// Create product - handle POST
 router.post(
   "/admin/products/create",
   upload.single("image"),
@@ -61,7 +56,7 @@ router.post(
       res.redirect("/admin");
     } catch (err) {
       console.error(err);
-      // Pass product=null so template works correctly
+
       res.render("admin/product-form", {
         product: null,
         error: "Something went wrong while creating the product",
@@ -70,7 +65,6 @@ router.post(
   },
 );
 
-// Edit product - handle POST
 router.post(
   "/admin/products/:id/edit",
   upload.single("image"),
@@ -94,7 +88,7 @@ router.post(
       res.redirect("/admin");
     } catch (err) {
       console.error(err);
-      // Pass the existing product so the form still pre-fills values
+
       const existingProduct = await Product.getById(req.params.id);
       res.render("admin/product-form", {
         product: existingProduct || null,
@@ -104,14 +98,13 @@ router.post(
   },
 );
 
-// Delete product
 router.post("/admin/products/:id/delete", async (req, res) => {
   try {
     await Product.remove(req.params.id);
     res.redirect("/admin");
   } catch (err) {
     console.error(err);
-    // Pass product=null to prevent ReferenceError
+
     res.render("admin/product-form", {
       product: null,
       error: "Something went wrong while deleting the product",

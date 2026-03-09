@@ -470,7 +470,7 @@
           price: parseFloat(btn.dataset.price),
           image: decodeURIComponent(btn.dataset.image),
         };
-        // Toggle basket state
+
         const basket = Storage.getCart ? Storage.getCart() : [];
         const inBasket = basket.some((item) => item.id === product.id);
         if (inBasket) {
@@ -490,7 +490,6 @@
           }
         });
 
-        // Highlight basket buttons for items already in basket
         const basket = Storage.getCart ? Storage.getCart() : [];
         basket.forEach((item) => {
           const btn = document.querySelector(
